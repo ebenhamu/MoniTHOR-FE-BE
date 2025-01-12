@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Login Page{% endblock %} {% block content
+ %}
+    <h2>Login</h2>
+    <form id="login-form" method="POST" type="submit">
+        <label>Username:</label>
+        <input type="text" id="username" placeholder="Enter Username">
+        <label>Password:</label>
+        <input type="password" id="password" placeholder="Enter Password">
+        <button type="submit" class="login-submit">LOGIN</button>
+        <div class="google-login">
+            <a href="{{ url_for('google_login') }}">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo">
+                <span style="font-size: 14px; color: #f52121;">Sign in with Google</span>
+            </a>
+        </div> 
+    </form>
+    <br />
+    <h3>Don't Have Account? <a href="/register">Click Me!</a></h3>
+
+
+ {% endblock %}

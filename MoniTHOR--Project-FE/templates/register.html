@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Register Page{% endblock %} {% block content
+    %}
+       <h2>Register</h2>
+       <form id="register-form" type="submit">
+           <label>Username:</label>
+           <input type="text" id="username" name="username" placeholder="Enter Username" required minlength="4">
+           <label>Password:</label>
+           <input type="password" id="password1" name="password1" placeholder="Enter Password" required minlength="4">
+           <label>Confirm Password:</label>
+           <input type="password" id="password2" name="password2" placeholder="Confirm Password" required minlength="4">
+           <button type="submit" class="register-submit" >REGISTER</button>
+           <div class="google-login">
+               <a href="{{ url_for('google_login') }}">
+                   <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo">
+                   <span style="font-size: 14px; color: #f52121;">Sign in with Google</span>
+               </a>
+           </div>  
+       </form>
+       <br />
+       <h3>Already Have Account? <a href="/login">Click Me!</a></h3>
+   
+      
+    {% endblock %}

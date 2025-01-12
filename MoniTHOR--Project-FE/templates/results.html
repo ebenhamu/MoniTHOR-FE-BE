@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block title %}{{ session['user'] }}'s Results{% endblock %} {% block content
+    %}
+    <h2 type="button"  onclick="runCheck()"  id="Results">{{ session['user'] }}'s Results</h2>
+    <h3>Results: {{ last_run}} </h3>
+    <div id="top-row" class="results_domain">
+    <form id="result-form" method="GET">
+        <div>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Domain Name</th>
+                        <th>Liveness Status</th>
+                        <th>SSL Certificate Expiration Date</th>
+                        <th>SSL Certificate Issuer</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    {% for item in data %}
+                    <tr>
+                        <td>{{ item['domain'] }}</td>
+                        <td class="status-code">{{ item['status_code'] }}</td>
+                        <td>{{ item['ssl_expiration'] }}</td>
+                        <td>{{ item['ssl_Issuer'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        </div>
+    </form>
+    <form id="domains-form">
+        <h2 id="list">Your Domains List:</h2>
+        <ul class="list-group list-group-flush" id="domains">
+           {% for domain in all_domains %}
+           <li class="list-group-item">
+           {{ domain }}
+           <button type="button" class="close" onclick="removeDomain(this)">
+               <span aria-hidden="true">&times;</span>
+           </button>
+           </li>
+           {% endfor %}
+       </ul>
+      </form>
+    </div>
+    <div id="bottom-row">
+      <form id="monitoring-form">
+        <h2>Your Latest Monitoring Results:</h2>
+        <ul class="list-group list-group-flush" id="last_results">
+            {% for result in latest_results %}
+            <li class="list-group-item">
+                <strong>Domain:</strong> {{ result.domain }} <br>
+                <strong>Status:</strong> {{ result.status_code }} <br>
+                <strong>SSL Expiration:</strong> {{ result.ssl_expiration }} <br>
+                <strong>SSL Issuer:</strong> {{ result.ssl_Issuer }}
+            </li>
+            {% endfor %}
+          </ul>
+      </form>
+    </div>  
+
+    {% endblock %}

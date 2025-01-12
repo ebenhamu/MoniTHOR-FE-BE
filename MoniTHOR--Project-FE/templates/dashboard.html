@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block title %}{{ session['user'] }}'s Dashboard{% endblock %} {% block content
+ %}
+    <h2 id="Dashboard">{{ session['user'] }}'s Dashboard</h2>
+    <br />
+    <h3>Monitor Domains:</h3>
+    <div id="forms-container">
+        <div id="top-row">
+            <form id="single-monitor-form" method="POST" action="/add_domain/">
+            <label class="single-label">Single Domain:</label>
+            <input type="text" class="single" id="single" placeholder="Example.com">
+            <button type="submit" class="single-submit">Monitor Domain</button>
+            <p id="error-message">Please enter a valid domain name.</p>
+            </form>
+            <form id="bulk-monitor-form" method="POST" action="bulk_upload">
+            <label class="bulk-label">Upload Bulk Domains:</label>
+            <input type="file" class="bulk" id="bulk" accept=".txt" placeholder="userdata/Domains_for_upload.txt">
+            <button type="submit" class="bulk-submit" name="action" value="upload-check">Upload Domains</button>
+            <br />
+            <label>Check Your Current Domains File: </label>
+            <button type="submit" class="check-submit" name="action" value="check" >Run Check</button>
+            </form>
+        </div>
+        <div id="bottom-row">   
+            <form id="schedule-monitoring-form" method="POST" action="/schedule_bulk_monitoring">
+                <label for="schedule-time">Schedule Monitoring:</label>
+                <input type="date" id="schedule-date" name ="schedule_date"  >
+                <input type="time" id="schedule-time"  name="schedule_time">
+
+                <select id="timezone" name="timezone">
+                {% for tz in utc_timezones %}
+                    <option value="{{ tz }}">{{ tz }}</option>
+                {% endfor %}
+                </select>
+                <label for="interval">Select Interval:</label>
+                <select id="interval" name="interval" >
+                <option value="">None (One-time job)</option>
+                {% for i in range(1, 13) %}
+                <option value="{{ i }}">{{ i }} Hour{% if i > 1 %}s{% endif %}</option>
+                {% endfor %}
+                </select>
+                <button type="submit" class="schedule-submit">Schedule</button>
+            </form>
+        </div>     
+    </div>
+    <h3>Scheduled Monitoring Jobs:</h3> 
+    <ul id="scheduled-jobs">   
+    {% for job in scheduled_jobs %}
+     <li class="list-group-item" style="width: 50%; margin-left: 23%;">
+        Monitoring scheduled for: {{ job['time'] }} ({{ job['timezone'] }}) -
+        {% if job['interval'] == '' %}
+        One-time job
+        {% elif job['interval'] == 1 %}
+        Every 1 Hour
+        {% else %}
+        Every {{ job['interval'] }} Hours
+        {% endif %}
+        <button class="cancelJob" type="button" onclick="cancelJob('{{ job['id'] }}')">Cancel</button>
+     </li>
+    {% endfor %}
+    </ul>
+    
+
+{% endblock %}
