@@ -1,0 +1,15 @@
+google.com
+facebook.com
+youtube.com
+twitter.com
+instagram.com
+linkedin.com
+apple.com
+googletagmanager.com
+microsoft.com
+wikipedia.org
+wordpress.org
+youtu.be
+github.com
+en.wikipedia.org
+play.google.com

@@ -158,25 +158,16 @@ def login():
 
 
 
-@app.route('/BElogin', methods=['POST'])
+@app.route('/update_user', methods=['POST'])
 def BElogin():
     if request.method == 'POST':
         data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        
-        logger.debug(f"Attempt to login with - User: {username}, Pass: {password}")
-        
-        status = user.login_user(username, password)
-        if status['message'] == "Login Successful":
-            session['user'] = username
-            globalInfo['runInfo'] = ['--/--/---- --:--', '-']
-            logger.info(f"User: {username} Login Successful")
-            return jsonify({"message": "Login Successful"})
-        else:
-            logger.info(f"User: {username} Login Failed")
-            return jsonify({"message": "Invalid username or password!"}), 401
-    return jsonify({"message": "Bad Request"}), 400
+        username = data.get('username')                        
+        session['user'] = username
+        globalInfo['runInfo'] = ['--/--/---- --:--', '-']
+        logger.info(f"User: {username} Login Successful")     
+        print("update user") 
+        return "Session user udpated"
 
 
 # Route for Dashboard  
@@ -413,10 +404,18 @@ def upload_file():
         
         return {'message':'File successfully uploaded','file': filepath }
 
-def Checkjob(username):    
-    globalInfo["runInfo"]=check_liveness.livness_check (username)
-    redirect('/results')
-    return  globalInfo["runInfo"]
+def Checkjob(username):       
+    url = f'http://127.0.0.1:5000/BEcheck/{username}'
+    respponse  = requests.get(url)        
+    info=respponse.json()
+    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"
+    print(globalInfo['runInfo'])
+    # globalInfo['runInfo'][1]=info['']
+    print (info)
+    return info
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)

@@ -29,15 +29,18 @@ def add_domain (userName,domain) :
     with open(f'{userDomainsFile}', 'r') as f:
         current_info = json.load(f)
         currentListOfDomains=list(current_info)
+        print(len(currentListOfDomains))
         
        
     for d in currentListOfDomains :             
         if d['domain'] == domain:
+            print( "Domain is exist")
             return failureMessageExist
 
     newDomain ={'domain':domain,'status':'unknown','ssl_expiration':'unknown','ssl_issuer':'unknown' }
     
-    currentListOfDomains.append(newDomain)             
+    if len(currentListOfDomains) < 100 :
+        currentListOfDomains.append(newDomain)             
     
 
     with open(userDomainsFile, 'w') as f:        

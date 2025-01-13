@@ -65,30 +65,24 @@ def login_user (userName,password) :
  
     return failureMessage
     
-def is_user_exit (userName) :
+def is_user_exist (userName) :
         
     logger.debug(f'Cheking if user {userName} exist')
-    successMessage = { 'message' : "User exit"}
+    successMessage = { 'message' : "User exist"}
     failureMessage = { 'message' : "User or User file is not exist"} 
+    
         
     # Create users file if not exist 
-    if not os.path.exists('users.json'):
+    if not os.path.exists('./users.json'):
         return failureMessage
         
     # loadin current data fro users file and convert to list 
     with open('users.json', 'r') as f:
         current_info = json.load(f)
-        currentListOfUsers=list(current_info)
+        currentListOfUsers=list(current_info)   
     
     # checking is user in file , if yes , validating password 
-    for user in currentListOfUsers :    
-    
-        if user['username'] == userName:
-            print(userName)    
-            print (user['username'])     
-            print(successMessage)       
-            return successMessage
-               
-        else:
-            return failureMessage 
+    for user in currentListOfUsers :            
+        if user['username'] == userName:    
+            return successMessage             
     return failureMessage

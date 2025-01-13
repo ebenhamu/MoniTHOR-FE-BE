@@ -50,8 +50,7 @@ def schedule_bulk_monitoring():
     schedule_date = request.form['schedule_date']
     schedule_time = request.form['schedule_time']
     timezone = request.form['timezone']
-    interval = request.form.get('interval')
-    user = session['user']    
+    interval = request.form.get('interval')    
     schedule_date_time=f"{schedule_date} {schedule_time}"
     # Convert time to UTC
     local_tz = pytz.timezone(timezone)
@@ -145,7 +144,7 @@ def google_callback():
                 json.dump(currentListOfUsers, f, indent=4)
 
         # Log the user in and redirect to the dashboard
-        session['user'] = google_user["username"]
+        
         return redirect(url_for("main"))
     else:
         return "User email not available or not verified by Google."
@@ -171,8 +170,8 @@ def BElogin():
         
         status = user.login_user(username, password)
         if status['message'] == "Login Successful":
-            session['user'] = username
-            globalInfo['runInfo'] = ['--/--/---- --:--', '-']
+            
+            
             logger.info(f"User: {username} Login Successful")
             return jsonify({"message": "Login Successful"})
         else:
@@ -181,35 +180,6 @@ def BElogin():
     return jsonify({"message": "Bad Request"}), 400
 
 
-# Route for Dashboard  
-@app.route('/dashboard', methods=['GET'])
-def main():
-    usr=session['user']    
-    user_file =f'./userdata/{usr}_domains.json'
-    if os.path.exists(user_file):
-     with open(user_file, 'r') as f:
-          data = json.load(f)
-    else:
-        data = []      
-
-    # Extract the required parts for the forms
-    all_domains = [item['domain'] for item in data]  # List of domain names
-    latest_results = data[:6]  # Last 6 results
-    
-    failuresCount = sum(1 for item in data if item.get('status_code') == 'FAILED' )    
-    if len(all_domains)>0 :
-        failuresPrecent=  round (float(float(failuresCount)/float(len(all_domains)))*100,1)
-    else:
-        failuresPrecent=0
-    
-    
-    # Pass scheduled jobs for the current user
-    user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
-    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
-    
-    
-    return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{globalInfo['runInfo'][1]} failures {failuresPrecent} %" )
 
 # Route for user results
 @app.route('/results', methods=['GET'])
@@ -237,8 +207,10 @@ def results():
 
 @app.route('/BEresults/<username>', methods=['GET'])
 def BEresults(username):
-    if user.is_user_exit(username)['message']!="User exit" :
+    if user.is_user_exist(username)['message']!="User exist" :
+        print  (f"{username} is not exist ")
         return "No User is logged in" 
+    print  (f"{username} is exist ")
     user_file = f'./userdata/{username}_domains.json'
     if os.path.exists(user_file):
         with open(user_file, 'r') as f:
@@ -357,8 +329,8 @@ def add_new_domain(domainName):
 @app.route('/BEadd_domain/<domainName>/<username>',methods=['GET', 'POST'])
 def BEadd_new_domain(domainName,username):
     logger.debug(f'New domain added {domainName}')
-    print(user.is_user_exit(username))
-    if user.is_user_exit(username)['message']!="User exit" :
+    print(user.is_user_exist(username))
+    if user.is_user_exist(username)['message']!="User exist" :        
         return "No User is logged in" 
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
@@ -366,14 +338,15 @@ def BEadd_new_domain(domainName,username):
     return domain.add_domain(username,domainName)   
     
 # Route to remove a single domain 
-@app.route('/remove_domain/<domainName>', methods=['GET', 'POST'])
-def remove_domain(domainName):
+@app.route('/BEremove_domain/<domainName>/<username>', methods=['GET', 'POST'])
+def remove_domain(domainName,username):
+    print ("XXXXXXXXXXXXXXX")
+    if user.is_user_exist(username)['message']!="User exist" :
+        return "User does not exist" 
     logger.debug(f'Remove domain being called to domain: {domainName}')
-    if session['user'] == "":
-        return "No User is logged in"
-
+    
     logger.debug(f'Domain name is {domainName}')    
-    response = domain.remove_domain(session['user'], domainName)
+    response = domain.remove_domain(username, domainName)
 
     if response['message'] == "Domain successfully removed":       
         try:
@@ -398,7 +371,7 @@ def remove_domain(domainName):
 
 @app.route('/BEbulk_upload/<filename>/<username>')
 def add_from_file(filename,username):    
-    if user.is_user_exit(username)['message']!="User exit" :
+    if user.is_user_exist(username)['message']!="User exist" :
         return "User does not exist" 
 
         
@@ -409,7 +382,7 @@ def add_from_file(filename,username):
 # Route to run Livness check 
 @app.route('/BEcheck/<username>')
 def check_livness(username):    
-    if user.is_user_exit(username)['message']!="User exit" :
+    if user.is_user_exist(username)['message']!="User exist" :
        return "User does not exist"             
     runInfo=check_liveness.livness_check (username)            
     return runInfo

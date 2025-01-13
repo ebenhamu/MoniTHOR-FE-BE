@@ -1,0 +1,8 @@
+Flask==3.1.0
+requests==2.32.3
+oauthlib==2.1.0
+APScheduler==3.11.0
+python-dotenv==1.0.1
+pytz==2024.2
+selenium==4.27.1
+webdriver-manager

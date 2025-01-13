@@ -11,7 +11,7 @@ async function handleLogin(event) {
     console.log(`username=${UserName}&password=${Password} Login!`);
 
     try {
-        const response = await fetch('/BElogin', {
+        const response = await fetch('http://127.0.0.1:5000/BElogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,23 @@ async function handleLogin(event) {
         console.log(data);
 
         if (data.message === "Login Successful") {
-            console.log("Logged In Successfully");
+            console.log("Logged In Successfully");            
+            const response = await fetch('/update_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                username: UserName                    
+                })
+            });
+            
+            const data1 = await response;
+            console.log(data1);
+            
+
+            
+
             window.location.href = '/dashboard'; // Redirect after successful login
         } else {
             alert('Invalid username or password!');
@@ -110,7 +126,7 @@ if (logform) {
                 }
 
                 try {                    
-                    const response2 = await fetch(`http://127.0.0.1:5000/check/${username}`);
+                    const response2 = await fetch(`check/${username}`);
                     const checkResponse = await response2.text();                    
                     console.log(checkResponse);
                     alert('Check Is Finished') 
@@ -164,8 +180,8 @@ if (logform) {
             
             console.log(formData)
         
-            console.log("***")
-            alert("*")
+            
+            
 
             try {
                 var response = await fetch('http://127.0.0.1:5000/BEupload', {
@@ -187,7 +203,7 @@ if (logform) {
 
             }
                 try {
-                    const response2 = await fetch(`http://127.0.0.1:5000/BEcheck/${username}`);
+                    const response2 = await fetch(`check/${username}`);
                     const checkResponse = await response2.text();
                     console.log(checkResponse);
                     alert('Check Is Finished')                    
@@ -245,7 +261,7 @@ if (logform) {
             const response2 = await fetch(`check/${username}`);
             const checkResponse = await response2.text();
             console.log(checkResponse);
-            alert('Check Is Fin*******ished')                    
+            alert('Check Is Finished')                    
             setTimeout(() => {
                 window.location.href = '/results';
             }, 1000); // 1000 milliseconds = 1 seconds
@@ -258,6 +274,8 @@ if (logform) {
     // Delete domain function
     function removeDomain(buttonElement) {
         console.log("Remove button clicked.");
+
+    
         const listItem = buttonElement.closest("li");
         if (!listItem) {
             console.log("Could not find the parent list item.");
@@ -271,23 +289,27 @@ if (logform) {
         // Remove unnecessary parts (e.g., "Remove" from text if it's being included)
         domainName = domainName.replace("Remove", "").trim();
         console.log(`Cleaned domain name: ${domainName}`);
-        
-    
-        fetch(`/remove_domain/${encodeURIComponent(domainName)}`, {
+        const title = document.getElementById('results').innerText;                
+        let username=title.replace("\'s Results","")
+              
+        fetch(`http://127.0.0.1:5000/BEremove_domain/${encodeURIComponent(domainName)}/${username}`, {
             method: 'POST'
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Server response:", data);
-                if (data.message === "Domain successfully removed") {
-                    listItem.remove();
-                    alert(data.message);
-                    location.reload();
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error("Error:", error));
+        .then(response => response.json())
+        .then(data => {
+            console.log("Server response:", data);
+            if (data.message === "Domain successfully removed") {
+                listItem.remove();
+                alert(data.message);
+                location.reload();
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while attempting to remove the domain. Please try again.");
+        });
     }
     
     // Cancel Schedule Job Function
