@@ -1,9 +1,8 @@
 from flask import Flask, session, render_template,redirect,request, url_for , jsonify
 import requests 
-
 from oauthlib.oauth2 import WebApplicationClient
 from pythonBE import user , check_liveness ,domain
-from pythonBE.logs import logger
+from logger.logs import logger
 import json
 from dotenv import load_dotenv
 import os
@@ -22,7 +21,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 CORS(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = './userdata/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
@@ -207,10 +206,9 @@ def results():
 
 @app.route('/BEresults/<username>', methods=['GET'])
 def BEresults(username):
-    if user.is_user_exist(username)['message']!="User exist" :
-        print  (f"{username} is not exist ")
+    if user.is_user_exist(username)['message']!="User exist" :        
         return "No User is logged in" 
-    print  (f"{username} is exist ")
+    
     user_file = f'./userdata/{username}_domains.json'
     if os.path.exists(user_file):
         with open(user_file, 'r') as f:
@@ -275,9 +273,7 @@ def BEregister():
     data = request.get_json()
     username = data.get('username')
     password1 = data.get('password1')
-    password2 = data.get('password2')
-
-    logger.debug(f"Received: username={username}, password1={password1}, password2={password2} for register to monithor!")
+    password2 = data.get('password2')   
 
     # Validate input parameters
     if not username or not password1 or not password2:
@@ -328,8 +324,7 @@ def add_new_domain(domainName):
 # Route to add a single domain 
 @app.route('/BEadd_domain/<domainName>/<username>',methods=['GET', 'POST'])
 def BEadd_new_domain(domainName,username):
-    logger.debug(f'New domain added {domainName}')
-    print(user.is_user_exist(username))
+    logger.debug(f'New domain is added {domainName}')    
     if user.is_user_exist(username)['message']!="User exist" :        
         return "No User is logged in" 
     # Get the domain name from the form data
@@ -340,7 +335,6 @@ def BEadd_new_domain(domainName,username):
 # Route to remove a single domain 
 @app.route('/BEremove_domain/<domainName>/<username>', methods=['GET', 'POST'])
 def remove_domain(domainName,username):
-    print ("XXXXXXXXXXXXXXX")
     if user.is_user_exist(username)['message']!="User exist" :
         return "User does not exist" 
     logger.debug(f'Remove domain being called to domain: {domainName}')

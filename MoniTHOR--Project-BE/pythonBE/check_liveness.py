@@ -6,7 +6,7 @@ from queue import Queue
 import time
 from pythonBE import check_certificate 
 import os
-from pythonBE.logs import logger
+from logger.logs import logger
 
 # livness and ssl info function , for single domain file "all=False" , for domains file "all=True"
 # function will read Domain/Domains file and will update relevant fields in file 
@@ -38,12 +38,10 @@ def livness_check (username):
     def check_url():
         while not urls_queue.empty():
             url = urls_queue.get()
+                                   
             
-            
-            
-            #print(certInfo)
             result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
-            logger.info(f'Check URL - {url}')
+            
             try:
                 response = requests.get(f'http://{url}', timeout=10)
                 logger.info(f"URL To Check:{url}")

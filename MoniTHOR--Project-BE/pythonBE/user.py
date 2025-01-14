@@ -1,6 +1,6 @@
 import os
 import json
-from pythonBE.logs import logger
+from logger.logs import logger
   
 def register_user (userName,password1,password2) :
     logger.debug(f'Register Functions is invoked with new User:{userName}')

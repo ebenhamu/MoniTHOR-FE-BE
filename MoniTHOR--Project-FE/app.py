@@ -1,9 +1,7 @@
 from flask import Flask, session, render_template,redirect,request, url_for , jsonify
 import requests 
-
 from oauthlib.oauth2 import WebApplicationClient
-from pythonBE import user , check_liveness ,domain
-from pythonBE.logs import logger
+from logger.logs import logger
 import json
 from dotenv import load_dotenv
 import os
@@ -12,7 +10,7 @@ from apscheduler.triggers.date import DateTrigger
 import pytz
 import uuid
 from datetime import datetime 
-import subprocess
+
 
 # Load environment variables from .env fileload_dotenv()
 
@@ -130,17 +128,37 @@ def google_callback():
         google_user = {
             "username": userinfo["email"]
         }
-        logger.info(f'{userinfo["email"]} Login With Google Account')
-        # Save the user to users.json if not already saved
-        with open('users.json', 'r') as f:
-          current_info = json.load(f)
-          currentListOfUsers=list(current_info)
+        logger.info(f'{userinfo["email"]} Login With Google Account')       
 
-        # Check if the user already exists
-        if not any(user['username'] == google_user["username"] for user in currentListOfUsers):
-            currentListOfUsers.append({"username": google_user["username"]})
-            with open('users.json', 'w') as f:
-                json.dump(currentListOfUsers, f, indent=4)
+        # URL of the BEregister endpoint
+        url = 'http://127.0.0.1:5000/BEregister'
+
+        # Data to be sent in the request
+        data = {
+            'username': google_user["username"],
+            'password1': 'google_login',
+            'password2': 'google_login'
+        }
+
+        # Headers for the request
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        try:
+        # Make a POST request to the BEregister endpoint
+            response = requests.post(url, headers=headers, data=json.dumps(data))
+    
+        # Check the response status code
+            if response.status_code == 201:
+                logger.info(f'Registration successful:{google_user["username"]}')
+            elif response.status_code == 409:
+                logger.info(f'Info: Username  {google_user["username"]} already registered:')
+            else:
+                logger.info('Error:', response.json())
+
+        except Exception as e:
+            print('An error occurred:', str(e))
 
         # Log the user in and redirect to the dashboard
         session['user'] = google_user["username"]
@@ -159,14 +177,13 @@ def login():
 
 
 @app.route('/update_user', methods=['POST'])
-def BElogin():
+def update_user_details():
     if request.method == 'POST':
         data = request.get_json()
         username = data.get('username')                        
         session['user'] = username
         globalInfo['runInfo'] = ['--/--/---- --:--', '-']
-        logger.info(f"User: {username} Login Successful")     
-        print("update user") 
+        logger.info(f"User: {username} Login Successful")             
         return "Session user udpated"
 
 
@@ -210,11 +227,7 @@ def check_livness(username):
     url = f'http://127.0.0.1:5000/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
-    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"
-    print(globalInfo['runInfo'])
-    # globalInfo['runInfo'][1]=info['']
-    print (info)
-
+    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"      
     return info
 
 
@@ -230,7 +243,7 @@ def results():
     if response.status_code == 200:
         resdata = response.json()        
     else:
-        print(f'Error: {response.status_code}')
+        logger.log(f'Error: {response.status_code}')
 
     
     user_file =f'./userdata/{username}_domains.json' 
@@ -251,7 +264,7 @@ def results():
     else:
         failuresPrecent=0   
     lastRunInfo=f"{globalInfo['runInfo']}-nodes,{failuresPrecent}% Failures"
-    print(lastRunInfo)
+    
     
     return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo)
 
@@ -266,56 +279,6 @@ def logoff():
     globalInfo['runInfo']=['--/--/---- --:--', '-']
     return  render_template('login.html')
 
-
-
-# # Route for Register 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     username = request.args.get('username')
-#     password1 = request.args.get('password1')
-#     password2 = request.args.get('password2')
-#     logger.debug(f"Received: username={username}, password1={password1}, password2={password2} for register to monithor!")
-#     # Process registration
-#     status = user.register_user(username, password1, password2)
-
-#     # Validate input parameters
-#     if password1 != password2:        
-#         return "Passwords do not match"
-#     if status['message'] == 'Username already taken':
-#         return "Username already taken"
-#     if status['message'] == 'Registered successfully':
-#         return "Registered successfully"         
-
-#     return render_template('register.html')
-    
-
-
-@app.route('/BEregister', methods=['POST'])
-def BEregister():
-    print ("*********************")
-    data = request.get_json()
-    username = data.get('username')
-    password1 = data.get('password1')
-    password2 = data.get('password2')
-
-    logger.debug(f"Received: username={username}, password1={password1}, password2={password2} for register to monithor!")
-
-    # Validate input parameters
-    if not username or not password1 or not password2:
-        return jsonify({"error": "All fields are required"}), 400
-    if password1 != password2:
-        return jsonify({"error": "Passwords do not match"}), 400
-
-    # Process registration
-    status = user.register_user(username, password1, password2)
-
-    if status['message'] == 'Username already taken':
-        return jsonify({"error": "Username already taken"}), 409
-    if status['message'] == 'Registered successfully':
-        return jsonify({"message": "Registered successfully"}), 201
-    
-    return jsonify({"error": "Registration failed"}), 500
-   
 
 
 @app.route('/register', methods=['GET'])
@@ -335,86 +298,16 @@ def submit_data():
     data = request.get_json()  # Parse JSON payload
     return {"received": data}, 200
 
-# Route to add a single domain 
-@app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
-def add_new_domain(domainName):
-    logger.debug(f'New domain added {domainName}')
-    if session['user']=="" :
-        return "No User is logged in" 
-    # Get the domain name from the form data
-    logger.debug(f'Domain name is {domainName}')
-        
-    return domain.add_domain(session['user'],domainName)   
-    
-# Route to remove a single domain 
-@app.route('/remove_domain/<domainName>', methods=['GET', 'POST'])
-def remove_domain(domainName):
-    logger.debug(f'Remove domain being called to domain: {domainName}')
-    if session['user'] == "":
-        return "No User is logged in"
-
-    logger.debug(f'Domain name is {domainName}')    
-    response = domain.remove_domain(session['user'], domainName)
-
-    if response['message'] == "Domain successfully removed":       
-        try:
-            logger.debug(f"Before update: globalInfo['runInfo']: {globalInfo['runInfo']}")
-            current_count = int(globalInfo['runInfo'][1])
-            if current_count>0:
-                globalInfo['runInfo'] = (globalInfo['runInfo'][0], str(current_count - 1))
-            logger.debug(f"After update: globalInfo['runInfo']: {globalInfo['runInfo']}")
-        except ValueError:
-            logger.error(f"Invalid value in globalInfo['runInfo'][1]: {globalInfo['runInfo'][1]}")
-            globalInfo['runInfo'] = (globalInfo['runInfo'][0], '0')  # Fallback value
-
-        return response
     
     
-    return "Error: Domain could not be removed"
     
-
-# usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
-# using  %5C instaed of  "\"  
-# in UI put    ./userdata/Domains_for_upload.txt
-
-@app.route('/bulk_upload/<filename>')
-def add_from_file(filename):    
-    if session['user']=="" :
-        return "No User is logged in"           
-    logger.info(f"File for bulk upload:{filename}")
-    return domain.add_bulk(session['user'],filename)
-    
-    
-
-    
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        return 'No file part'
-    file = request.files['file']
-    if file.filename == '':
-        return 'No selected file'
-    if file:
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(filepath)
-        add_from_file(filepath)
-        if os.path.exists(filepath): 
-            os.remove(filepath)
-               
-        
-        return {'message':'File successfully uploaded','file': filepath }
 
 def Checkjob(username):       
     url = f'http://127.0.0.1:5000/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
-    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"
-    print(globalInfo['runInfo'])
-    # globalInfo['runInfo'][1]=info['']
-    print (info)
+    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"          
     return info
-
-
 
 
 if __name__ == '__main__':

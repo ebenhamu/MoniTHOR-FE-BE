@@ -1,7 +1,7 @@
 import ssl
 import socket
 from datetime import datetime
-from pythonBE.logs import logger
+from logger.logs import logger
 
 # Getting ssl certifcation info for url.
 def certificate_check(url):

@@ -1,7 +1,7 @@
 import os
 import json
 import re
-from pythonBE.logs import logger
+from logger.logs import logger
 
 
 def add_domain (userName,domain) :
@@ -28,13 +28,11 @@ def add_domain (userName,domain) :
 
     with open(f'{userDomainsFile}', 'r') as f:
         current_info = json.load(f)
-        currentListOfDomains=list(current_info)
-        print(len(currentListOfDomains))
+        currentListOfDomains=list(current_info)       
         
        
     for d in currentListOfDomains :             
-        if d['domain'] == domain:
-            print( "Domain is exist")
+        if d['domain'] == domain:            
             return failureMessageExist
 
     newDomain ={'domain':domain,'status':'unknown','ssl_expiration':'unknown','ssl_issuer':'unknown' }
