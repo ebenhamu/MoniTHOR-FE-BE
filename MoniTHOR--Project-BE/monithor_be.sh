@@ -5,9 +5,9 @@ sudo apt update -y && sudo apt upgrade -y
 sudo apt install git python3-pip -y
 
 # Clone the project repository
-git clone https://github.com/MayElbaz18/MoniTHOR--Project.git
-sudo mv .env /home/ubuntu/MoniTHOR--Project
-cd MoniTHOR--Project
+git clone https://github.com/ebenhamu/MoniTHOR-FE-BE
+sudo mv .env /home/ubuntu/MoniTHOR-FE-BE
+cd MoniTHOR-FE-BE
 
 # Install Python dependencies
 python3 -m pip install --upgrade pip
