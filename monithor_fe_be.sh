@@ -11,7 +11,7 @@ sudo mv .env /home/ubuntu/MoniTHOR-FE-BE
 
 # Install Python dependencies
 python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt --break-system-packages --ignore-installed
+python3 -m pip install -r MoniTHOR-FE-BE/requirements.txt --break-system-packages --ignore-installed
 
 # Set proper permissions
 sudo chmod -R 777 .
