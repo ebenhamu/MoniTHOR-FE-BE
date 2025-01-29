@@ -39,7 +39,7 @@ sudo systemctl daemon-reload
 
 # Start and enable the MoniTHOR service
 sudo systemctl start MoniTHOR_BE.service
-sudo systemctl enable MoniTHOR_E.service
+sudo systemctl enable MoniTHOR_BE.service
 
 # Stop UFW if necessary (consider configuring it properly instead of disabling)
 sudo ufw disable
