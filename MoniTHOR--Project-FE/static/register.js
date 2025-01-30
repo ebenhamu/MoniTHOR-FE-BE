@@ -18,7 +18,7 @@ async function Register(UserName, Password1, Password2) {
     console.log("in function");
 
     try {
-        let response = await fetch('http://127.0.0.1:5000/BEregister', {
+        let response = await fetch('http://34.217.100.13:5000/BEregister', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
