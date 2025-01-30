@@ -9,7 +9,7 @@ async function handleLogin(event) {
     const UserName = document.getElementById('username').value;
     const Password = document.getElementById('password').value;
     console.log(`username=${UserName}&password=${Password} Login!`);
-
+    console.log("before Try")
     try {
         console.log("In Try")
         const response = await fetch('http://127.0.0.1:5000/BElogin', {
