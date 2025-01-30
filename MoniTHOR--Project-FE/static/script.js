@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to handle login form submission
 async function handleLogin(event) {
-    console.log('login-form is submitted!');
+    console.log('login-form is submitted!!!');
     event.preventDefault();
 
     const UserName = document.getElementById('username').value;
