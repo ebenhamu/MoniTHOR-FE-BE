@@ -22,7 +22,7 @@ async function handleLogin(event) {
                 password: Password,
             })
         });
-        
+        console.log("After Fetch")
         const data = await response.json();
         console.log(data);
 
