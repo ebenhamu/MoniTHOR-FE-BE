@@ -11,6 +11,7 @@ async function handleLogin(event) {
     console.log(`username=${UserName}&password=${Password} Login!`);
 
     try {
+        console.log("In Try")
         const response = await fetch('http://127.0.0.1:5000/BElogin', {
             method: 'POST',
             headers: {
