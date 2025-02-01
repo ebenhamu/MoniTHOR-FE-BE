@@ -1,3 +1,4 @@
+import socket
 from flask import Flask, session, render_template,redirect,request, url_for , jsonify
 import requests 
 from oauthlib.oauth2 import WebApplicationClient
@@ -166,7 +167,12 @@ def google_callback():
     else:
         return "User email not available or not verified by Google."
     
-
+@app.route('/get-ip', methods=['GET'])
+def get_ip():
+    hostname = socket.gethostname()
+    local_ip = socket.gethostbyname(hostname)
+    print(local_ip)
+    return jsonify({'local_ip': local_ip})
 
 
 # Route for login page 

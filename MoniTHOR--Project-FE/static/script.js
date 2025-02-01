@@ -1,3 +1,29 @@
+
+//const "127.0.0.1:5000"
+
+
+async function fetchLocalIP() {
+    try {
+        
+        const response = await fetch('http://127.0.0.1:8080/get-ip');
+        if (!response.ok) {
+            
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            
+            
+        }
+        const data = await response.json();      
+        BE_HOST_PORT=data.local_ip + ":" +'5000'     
+            
+    } catch (error) {
+        console.error('Error fetching local IP:', error);
+    }
+}
+
+// Call the function to fetch and log the local IP address
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('JavaScript is loaded.');
 
@@ -10,9 +36,10 @@ async function handleLogin(event) {
     const Password = document.getElementById('password').value;
     console.log(`username=${UserName}&password=${Password} Login!`);
     console.log("before Try")
-    try {
-        console.log("In Try")
-        const response = await fetch('http://localhost:5000/BElogin', {
+    try {       
+        fetchLocalIP();        
+        url='http://'+ BE_HOST_PORT + '/BElogin'        
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -118,7 +145,8 @@ if (logform) {
             } else {
                 errorMessage.style.display = "none"; // Hide the error message
                 try {
-                    const response = await fetch(`http://127.0.0.1:5000/BEadd_domain/${domainInput}/${username}`);
+                    url = 'http://'+ BE_HOST_PORT + '/BEadd_domain/' +domainInput +"/" + username      
+                    const response = await fetch(url);
                     const data = await response.text();
                     console.log(data);
                     console.log('Domain is monitored');
@@ -185,7 +213,8 @@ if (logform) {
             
 
             try {
-                var response = await fetch('http://127.0.0.1:5000/BEupload', {
+                url='http://'+ BE_HOST_PORT + '/BEupload'
+                var response = await fetch(url, {
                     method: 'POST',
                     body: formData
                 });
@@ -292,8 +321,8 @@ if (logform) {
         console.log(`Cleaned domain name: ${domainName}`);
         const title = document.getElementById('results').innerText;                
         let username=title.replace("\'s Results","")
-              
-        fetch(`http://127.0.0.1:5000/BEremove_domain/${encodeURIComponent(domainName)}/${username}`, {
+        url = 'http://'+ BE_HOST_PORT + '/BEremove_domain/' +encodeURIComponent(domainName) +"/" + username      
+        fetch(url, {
             method: 'POST'
         })
         .then(response => response.json())
