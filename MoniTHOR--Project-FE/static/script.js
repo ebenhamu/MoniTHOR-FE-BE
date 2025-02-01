@@ -12,7 +12,7 @@ async function handleLogin(event) {
     console.log("before Try")
     try {
         console.log("In Try")
-        const response = await fetch('http://34.217.100.13:5000/BElogin', {
+        const response = await fetch('http://localhost:5000/BElogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
