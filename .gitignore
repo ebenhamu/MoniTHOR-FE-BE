@@ -140,6 +140,7 @@ venv.bak/
 # mkdocs documentation
 /site
 /Monithor!
+/MoniTHOR--Project-BE/userdata
 
 # mypy
 .mypy_cache/
