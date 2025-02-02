@@ -1,7 +1,6 @@
 {
     "DEBUG": true,
-    "SECRET_KEY": "your-secret-key",
-    "DATABASE_URI": "sqlite:///your-database.db",
+    "SECRET_KEY": "your-secret-key",  
     "UPLOAD_FOLDER" : "uploads",
     "BEServer": "localhost",
     "BePort": 5000 
