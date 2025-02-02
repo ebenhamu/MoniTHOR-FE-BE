@@ -1,15 +1,13 @@
 import time
 import functools
-from commons.logs import get_logger
-logger = get_logger()
+from logs import logger
+
 
 
 
 class Utils():
-    def __init__(self):
-        from commons.logs import get_logger
-        self.logger = get_logger()
-    
+    def __init__(self):                
+        self.logger=logger
     def retry_this(self, retries=3, delay=1, backoff=1.5, exceptions=(Exception,)): # retry X times with Y delay in between and Z time between each retry
         def decorator_retry(func):
             @functools.wraps(func)
