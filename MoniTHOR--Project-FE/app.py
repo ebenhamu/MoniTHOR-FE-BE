@@ -1,4 +1,3 @@
-import socket
 from flask import Flask, session, render_template,redirect,request, url_for , jsonify
 import requests 
 from oauthlib.oauth2 import WebApplicationClient
@@ -11,15 +10,33 @@ from apscheduler.triggers.date import DateTrigger
 import pytz
 import uuid
 from datetime import datetime 
-
-
-# Load environment variables from .env fileload_dotenv()
+import socket
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
-app.secret_key = os.getenv('FLASK_SECRET_KEY')
-app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Load environment variables from .env file
+if os.path.exists('.env'):
+    load_dotenv()
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+    GOOGLE_DISCOVERY_URL = os.getenv('GOOGLE_DISCOVERY_URL')
+    app.secret_key = os.getenv('FLASK_SECRET_KEY')
+    #app.be_server = os.getenv()
+else:
+    GOOGLE_CLIENT_ID = 'NO_ENV_FILE_KEY'
+    app.secret_key = 'NO_ENV_FILE_KEY'
+    
+
+# Load configuration from JSON file
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+    app.config.update(config)
+
+
+
+
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
@@ -27,9 +44,6 @@ global globalInfo
 globalInfo = {'runInfo': ('--/--/---- --:--', '-')} 
 
 # Google OAuth2 details
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
-GOOGLE_DISCOVERY_URL = os.getenv('GOOGLE_DISCOVERY_URL')
 
 # Initialize OAuth2 client
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
@@ -167,18 +181,14 @@ def google_callback():
     else:
         return "User email not available or not verified by Google."
     
-@app.route('/get-ip', methods=['GET'])
-def get_ip():
-    hostname = socket.gethostname()
-    local_ip = socket.gethostbyname(hostname)
-    print(local_ip)
-    return jsonify({'local_ip': local_ip})
+
 
 
 # Route for login page 
 @app.route('/login', methods=['GET', 'POST'])
-def login():    
-    return render_template('login.html')
+def login():
+    local_ip = get_BEServer_ip()  # Get the local IP address
+    return render_template('login.html' ,beserver_ip=local_ip)
 
 
 
@@ -219,9 +229,11 @@ def main():
     user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
     utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
     
+    local_ip = get_BEServer_ip()  # Get the local IP address
+    
     
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{globalInfo['runInfo'][1]} failures {failuresPrecent} %" )
+                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{globalInfo['runInfo'][1]} failures {failuresPrecent} %" ,beserver_ip=local_ip)
 
 
 
@@ -271,8 +283,8 @@ def results():
         failuresPrecent=0   
     lastRunInfo=f"{globalInfo['runInfo']}-nodes,{failuresPrecent}% Failures"
     
-    
-    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo)
+    local_ip = get_BEServer_ip()  # Get the local IP address
+    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo,beserver_ip=local_ip)
 
 # Route for Logoff
 @app.route('/logoff', methods=['GET'])
@@ -283,13 +295,15 @@ def logoff():
         return  ("No user is logged in")    
     session['user']=""    
     globalInfo['runInfo']=['--/--/---- --:--', '-']
-    return  render_template('login.html')
+    local_ip = get_BEServer_ip()  # Get the local IP address
+    return render_template('login.html' ,beserver_ip=local_ip)
 
 
 
 @app.route('/register', methods=['GET'])
 def register():        
-        return render_template('register.html')
+    local_ip = get_BEServer_ip()  # Get the local IP address
+    return render_template('register.html' ,beserver_ip=local_ip)
 
 
 # Route for login page 
@@ -315,7 +329,15 @@ def Checkjob(username):
     globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"          
     return info
 
-
+# Function to get the backend server IP
+def get_BEServer_ip():
+    if app.config["BEServer"] == 'localhost':
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        return local_ip
+    else:
+        return  app.config["BEServer"]
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
     
