@@ -3,7 +3,7 @@
     "SECRET_KEY": "your-secret-key",
     "DATABASE_URI": "sqlite:///your-database.db",
     "UPLOAD_FOLDER" : "uploads",
-    "BEServer": "10.4.6.99",
+    "BEServer": "localhost",
     "BePort": 5000 
 
 }
