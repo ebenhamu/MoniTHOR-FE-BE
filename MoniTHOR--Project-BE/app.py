@@ -12,16 +12,21 @@ import pytz
 import uuid
 from datetime import datetime 
 from flask_cors import CORS
+from logger.utils  import Utils
 
-# Load environment variables from .env file
-load_dotenv()
+utils = Utils()
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-
+ 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 CORS(app)
-app.secret_key = os.getenv('FLASK_SECRET_KEY')
-app.config['UPLOAD_FOLDER'] = './userdata/uploads'
+
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+    app.config.update(config)
+
+
+app.secret_key =app.config['FLASK_SECRET_KEY']
+
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
@@ -159,6 +164,7 @@ def login():
 
 
 @app.route('/BElogin', methods=['POST'])
+@utils.measure_this
 def BElogin():
     if request.method == 'POST':
         data = request.get_json()
@@ -268,6 +274,7 @@ def logoff():
 
 
 @app.route('/BEregister', methods=['POST','GET'])
+@utils.measure_this
 def BEregister():
     
     data = request.get_json()
@@ -294,6 +301,7 @@ def BEregister():
 
 
 @app.route('/register', methods=['GET'])
+@utils.measure_this
 def register():        
         return render_template('register.html')
 
@@ -312,6 +320,7 @@ def submit_data():
 
 # Route to add a single domain 
 @app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
+@utils.measure_this
 def add_new_domain(domainName):
     logger.debug(f'New domain added {domainName}')
 
@@ -334,6 +343,7 @@ def BEadd_new_domain(domainName,username):
     
 # Route to remove a single domain 
 @app.route('/BEremove_domain/<domainName>/<username>', methods=['GET', 'POST'])
+@utils.measure_this
 def remove_domain(domainName,username):
     if user.is_user_exist(username)['message']!="User exist" :
         return "User does not exist" 
@@ -364,6 +374,7 @@ def remove_domain(domainName,username):
 # in UI put    ./userdata/Domains_for_upload.txt
 
 @app.route('/BEbulk_upload/<filename>/<username>')
+@utils.measure_this
 def add_from_file(filename,username):    
     if user.is_user_exist(username)['message']!="User exist" :
         return "User does not exist" 
@@ -374,7 +385,11 @@ def add_from_file(filename,username):
     
     
 # Route to run Livness check 
+# @function.measure_this()
+
 @app.route('/BEcheck/<username>')
+@utils.measure_this
+
 def check_livness(username):    
     if user.is_user_exist(username)['message']!="User exist" :
        return "User does not exist"             
@@ -383,6 +398,7 @@ def check_livness(username):
     
     
 @app.route('/BEupload', methods=['POST'])
+@utils.measure_this
 def upload_file():
     if 'file' not in request.files:
         return 'No file part'

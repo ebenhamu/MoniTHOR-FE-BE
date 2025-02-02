@@ -1,6 +1,6 @@
 import time
 import functools
-from logs import logger
+from logger.logs import logger
 
 
 
@@ -40,9 +40,10 @@ class Utils():
             # Attempt to get the class name if the function is bound to a class
             class_name = args[0].__class__.__name__ if args and hasattr(args[0], '__class__') else None
             if class_name:
-                self.logger.info(f"EXECUTION TIME FOR {class_name}.{func.__name__}: {execution_time:.4f} SECONDS")
+                 self.logger.info(f"EXECUTION TIME FOR {class_name}.{func.__name__}: {execution_time:.4f} SECONDS")
             else:
                 self.logger.info(f"EXECUTION TIME FOR {func.__name__}: {execution_time:.4f} SECONDS")  
+                print 
                           
             return result  # Return the original result
         return wrapper

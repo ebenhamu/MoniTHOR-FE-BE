@@ -2,7 +2,7 @@ import logging
 import sys
 
 
-log_level = "INFO"
+log_level = "DEBUG"
 log_file = "./logger/monithor.log"
 
 
