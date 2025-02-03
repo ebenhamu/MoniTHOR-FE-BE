@@ -2,5 +2,4 @@
     "FLASK_SECRET_KEY": "Not_To_Bad",
     "UPLOAD_FOLDER" :"./userdata/uploads"
 
-
 }

@@ -352,20 +352,8 @@ def remove_domain(domainName,username):
     logger.debug(f'Domain name is {domainName}')    
     response = domain.remove_domain(username, domainName)
 
-    if response['message'] == "Domain successfully removed":       
-        try:
-            logger.debug(f"Before update: globalInfo['runInfo']: {globalInfo['runInfo']}")
-            current_count = int(globalInfo['runInfo'][1])
-            if current_count>0:
-                globalInfo['runInfo'] = (globalInfo['runInfo'][0], str(current_count - 1))
-            logger.debug(f"After update: globalInfo['runInfo']: {globalInfo['runInfo']}")
-        except ValueError:
-            logger.error(f"Invalid value in globalInfo['runInfo'][1]: {globalInfo['runInfo'][1]}")
-            globalInfo['runInfo'] = (globalInfo['runInfo'][0], '0')  # Fallback value
-
-        return response
-    
-    
+    if response['message'] == "Domain successfully removed":               
+        return response       
     return "Error: Domain could not be removed"
     
 

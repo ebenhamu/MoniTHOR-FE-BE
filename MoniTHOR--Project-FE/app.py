@@ -22,8 +22,7 @@ if os.path.exists('.env'):
     GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
     GOOGLE_DISCOVERY_URL = os.getenv('GOOGLE_DISCOVERY_URL')
-    app.secret_key = os.getenv('FLASK_SECRET_KEY')
-    #app.be_server = os.getenv()
+    app.secret_key = os.getenv('FLASK_SECRET_KEY')    
 else:
     GOOGLE_CLIENT_ID = 'NO_ENV_FILE_KEY'
     app.secret_key = 'NO_ENV_FILE_KEY'
@@ -43,7 +42,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
 global globalInfo 
-globalInfo = {'runInfo': ('--/--/---- --:--', '-')} 
+globalInfo = {'runInfo': ('--/--/---- --:-- ')} 
 
 # Google OAuth2 details
 
@@ -193,14 +192,14 @@ def login():
     return render_template('login.html' ,beserver_ip=local_ip)
 
 
-
+# update user in session
 @app.route('/update_user', methods=['POST'])
 def update_user_details():
     if request.method == 'POST':
         data = request.get_json()
         username = data.get('username')                        
         session['user'] = username
-        globalInfo['runInfo'] = ['--/--/---- --:--', '-']
+        globalInfo['runInfo'] = ['--/--/---- --:-- ']
         logger.info(f"User: {username} Login Successful")             
         return "Session user udpated"
 
@@ -235,7 +234,7 @@ def main():
     
     
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{globalInfo['runInfo'][1]} failures {failuresPrecent} %" ,beserver_ip=local_ip)
+                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,beserver_ip=local_ip)
 
 
 
@@ -247,7 +246,7 @@ def check_livness(username):
     url = f'http://127.0.0.1:5000/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
-    globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"      
+    globalInfo['runInfo']=f"{info['start_date_time']} "#,{info['numberOfDomains']}"      
     return info
 
 
@@ -265,13 +264,6 @@ def results():
     else:
         logger.log(f'Error: {response.status_code}')
 
-    
-    user_file =f'./userdata/{username}_domains.json' 
-    if os.path.exists(user_file):
-     with open(user_file, 'r') as f:
-          data = json.load(f)
-    else:
-        data = []      
     data=resdata['data']
 
     # Extract the required parts for the forms
@@ -283,7 +275,7 @@ def results():
         failuresPrecent=  round (float(float(failuresCount)/float(len(all_domains)))*100,1)
     else:
         failuresPrecent=0   
-    lastRunInfo=f"{globalInfo['runInfo']}-nodes,{failuresPrecent}% Failures"
+    lastRunInfo=f"{globalInfo['runInfo']}{len(all_domains)}-nodes,{failuresPrecent}% Failures"
     
     local_ip = get_BEServer_ip()  # Get the local IP address
     return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo,beserver_ip=local_ip)
@@ -296,7 +288,7 @@ def logoff():
     if user=="":
         return  ("No user is logged in")    
     session['user']=""    
-    globalInfo['runInfo']=['--/--/---- --:--', '-']
+    globalInfo['runInfo']=['--/--/---- --:-- ']
     local_ip = get_BEServer_ip()  # Get the local IP address
     return render_template('login.html' ,beserver_ip=local_ip)
 

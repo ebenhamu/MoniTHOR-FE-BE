@@ -1,5 +1,4 @@
 {
-    "DEBUG": true,      
     "UPLOAD_FOLDER" : "uploads",
     "BEServer": "localhost",
     "BePort": 5000 

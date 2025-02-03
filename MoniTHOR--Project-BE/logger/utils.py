@@ -42,8 +42,7 @@ class Utils():
             if class_name:
                  self.logger.info(f"EXECUTION TIME FOR {class_name}.{func.__name__}: {execution_time:.4f} SECONDS")
             else:
-                self.logger.info(f"EXECUTION TIME FOR {func.__name__}: {execution_time:.4f} SECONDS")  
-                print 
+                self.logger.info(f"EXECUTION TIME FOR {func.__name__}: {execution_time:.4f} SECONDS")                  
                           
             return result  # Return the original result
         return wrapper
