@@ -296,8 +296,72 @@ def logoff():
 
 @app.route('/register', methods=['GET'])
 def register():        
-    local_ip = get_BEServer_ip()  # Get the local IP address
+    local_ip = get_BEServer_ip()  # Get the local IP address    
     return render_template('register.html' ,beserver_ip=local_ip)
+
+@app.route('/register_user', methods=['POST','GET'])
+def register_user():        
+    #local_ip = get_BEServer_ip()  # Get the local IP address    
+    data = request.get_json()
+    username = data.get('username')
+    password1 = data.get('password1')
+    password2 = data.get('password2') 
+    # print(data)
+  
+    url = 'http://127.0.0.1:5000/BEregister'
+
+    # Data to be sent in the request
+    data = {
+       'username':username,
+       'password1': password1,
+       'password2': password2
+        }
+
+        # Headers for the request
+    headers = {
+            'Content-Type': 'application/json'
+        }
+ 
+    try:
+        # Make a POST request to the BEregister endpoint
+        response = requests.post(url, headers=headers, data=json.dumps(data))        
+        return response.json()
+    except:
+        return "Registration error"
+
+@app.route('/login_user', methods=['POST','GET'])
+def login_user():        
+    #local_ip = get_BEServer_ip()  # Get the local IP address    
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    # print(data)
+  
+    url = 'http://127.0.0.1:5000/BElogin'
+
+    # Data to be sent in the request
+    data = {
+       'username':username,
+       'password': password       
+        }
+
+        # Headers for the request
+    headers = {
+            'Content-Type': 'application/json'
+        }
+ 
+    try:
+        # Make a POST request to the BEregister endpoint
+        response = requests.post(url, headers=headers, data=json.dumps(data))        
+        print(response.json())
+        return response.json()
+    except:
+        return "Login error"
+    
+
+
+
 
 
 # Route for login page 
