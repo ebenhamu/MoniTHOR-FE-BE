@@ -82,6 +82,10 @@ target/
 profile_default/
 ipython_config.py
 
+#Monithor files
+users.json
+/userdata/*
+
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -137,11 +141,9 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-
 # mkdocs documentation
 /site
 /Monithor!
-/MoniTHOR--Project-BE/userdata
 
 # mypy
 .mypy_cache/
