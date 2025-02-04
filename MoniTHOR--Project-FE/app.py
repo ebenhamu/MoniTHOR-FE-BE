@@ -35,6 +35,9 @@ with open('config.json', 'r') as config_file:
     config = json.load(config_file)
     app.config.update(config)
 
+ 
+ 
+
 
 
 
@@ -147,7 +150,7 @@ def google_callback():
         logger.info(f'{userinfo["email"]} Login With Google Account')       
 
         # URL of the BEregister endpoint
-        url = 'http://127.0.0.1:5000/BEregister'
+        url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEregister'
 
         # Data to be sent in the request
         data = {
@@ -243,7 +246,7 @@ def main():
 def check_livness(username):    
     if session['user']=="" :
         return "No User is logged in" 
-    url = f'http://127.0.0.1:5000/BEcheck/{username}'
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} "#,{info['numberOfDomains']}"      
@@ -257,7 +260,7 @@ def results():
     username=session['user']    
 
 
-    url = f'http://127.0.0.1:5000/BEresults/{username}'
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEresults/{username}'
     response = requests.get(url)
     if response.status_code == 200:
         resdata = response.json()        
@@ -308,7 +311,7 @@ def register_user():
     password2 = data.get('password2') 
     # print(data)
   
-    url = 'http://127.0.0.1:5000/BEregister'
+    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEregister'
 
     # Data to be sent in the request
     data = {
@@ -338,7 +341,7 @@ def login_user():
     
     # print(data)
   
-    url = 'http://127.0.0.1:5000/BElogin'
+    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BElogin'
 
     # Data to be sent in the request
     data = {
@@ -379,7 +382,7 @@ def submit_data():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    url = 'http://127.0.0.1:5000/BEupload'
+    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEupload'
 
     if 'file' not in request.files or request.files['file'].filename == '':
         return {"error": "No file provided"}, 400
@@ -411,7 +414,7 @@ def upload():
 @app.route('/add_domain/<domainName>/<userName>',methods=['GET', 'POST'])
 
 def add_new_domain(domainName,userName):
-    url = f'http://127.0.0.1:5000//BEadd_domain/{domainName}/{userName}'    
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEadd_domain/{domainName}/{userName}'    
     response  = requests.get(url)         
     return response.json()
 
@@ -420,12 +423,12 @@ def add_new_domain(domainName,userName):
 @app.route('/remove_domain/<domainName>/<userName>',methods=['GET', 'POST'])
 
 def remove_domain(domainName,userName):
-    url = f'http://127.0.0.1:5000//BEremove_domain/{domainName}/{userName}'    
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEremove_domain/{domainName}/{userName}'    
     response  = requests.get(url)         
     return response.json()
 
 def Checkjob(username):       
-    url = f'http://127.0.0.1:5000/BEcheck/{username}'
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"          

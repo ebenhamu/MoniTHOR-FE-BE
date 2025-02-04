@@ -1,6 +1,6 @@
 {
     "UPLOAD_FOLDER" : "uploads",
     "BEServer": "localhost",
-    "BePort": 5000 
+    "BEPort": 5000 
 
 }
