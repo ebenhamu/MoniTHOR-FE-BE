@@ -422,8 +422,8 @@ def add_new_domain(domainName,userName):
 
 @app.route('/remove_domain/<domainName>/<userName>',methods=['GET', 'POST'])
 
-def remove_domain(domainName,userName):
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEremove_domain/{domainName}/{userName}'    
+def remove_domain(domainName,userName):    
+    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEremove_domain/{domainName}/{userName}'      
     response  = requests.get(url)         
     return response.json()
 
