@@ -60,42 +60,7 @@ if (logform) {
     console.warn('Login form not found.');
 }
 
-
-
-
-
-    // // Login form submission
-    // const logform = document.getElementById('login-form');
-    // if (logform) {
-    //     logform.addEventListener('submit', async function (event)  
-    //     {
-    //         console.log('login-form is submitted!');
-    //         event.preventDefault();
-
-    //         const UserName = document.getElementById('username').value;
-    //         const Password = document.getElementById('password').value;
-    //         console.log(`username=${UserName}&password=${Password} Login!`);
-
-    //         try {
-    //             const response = await fetch(`/login?username=${UserName}&password=${Password}`);
-    //             const data = await response.text();
-    //             console.log(data);
-
-    //             if (data.includes("Login Successful")) {
-    //                 console.log("Logged In Successfully");
-    //                 window.location.href = '/dashboard'; // Redirect after successful login
-    //             } else {
-    //                 alert('Invalid username or password!');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error during login:', error);
-    //         }
-    //     });
-    // } else {
-    //     console.warn('Login form not found.');
-    // }
-
-    // Single-monitor form submission
+    
     const monitorForm = document.getElementById('single-monitor-form');
     if (monitorForm) {
         monitorForm.addEventListener('submit', async function (event) {
@@ -146,94 +111,80 @@ if (logform) {
     // Bulk-monitor form submission
     const bulkForm = document.getElementById('bulk-monitor-form');
 
-if (bulkForm) {
-    bulkForm.addEventListener('submit', async function (event) {
-        console.log('bulk-monitor-form is submitted!');
-        event.preventDefault();
-
-        const title = document.getElementById('Dashboard').innerText;
-        const fileName = document.getElementById('bulk').value.trim();
-        const errorMessage = document.getElementById('error-message');
-        let username = title.replace("'s Dashboard", "");
-        var actionValue = document.activeElement.value;
-
-        console.log(actionValue);
-        console.log(username);
-        console.log(fileName);
-
-        if (actionValue === "upload-check") {
-            // Clear previous error message
-            errorMessage.innerText = '';
-
-            // Check for file selection
-            var fileInput = document.getElementById('bulk');
-            var file = fileInput.files[0];
-
-            if (typeof file === 'undefined') {
-                alert("File name for upload is missing");
-                return;
-            }
-
-            var formData = new FormData();
-            formData.append('file', file);
-            formData.append('user', username);
-
-            try {
-                var response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    var jsonResponse = await response.json();
-                    alert(jsonResponse['message']);
-                } else {
-                    alert('File upload failed. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred during the file upload.');
-            }
-            try {
-                const response2 = await fetch(`check/${username}`);
-                const checkResponse = await response2.text();
-                console.log(checkResponse);
-                alert('Check Is Finished')                    
-                setTimeout(() => {
-                    window.location.href = '/results';
-                }, 1000); // 1000 milliseconds = 1 seconds
-            } catch (error) {
-                console.error('Error runing check:', error);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-    });
-
-
-
-
-
-
-
-
+    if (bulkForm) {
+        bulkForm.addEventListener('submit', async function (event) {
+            console.log('bulk-monitor-form is submitted!');
+            event.preventDefault();
     
-}
-
-
+            // Show the spinner
+            document.getElementById('spinner').style.display = 'block';
+    
+            const title = document.getElementById('Dashboard').innerText;
+            const fileName = document.getElementById('bulk').value.trim();
+            const errorMessage = document.getElementById('error-message');
+            let username = title.replace("'s Dashboard", "");
+            var actionValue = document.activeElement.value;
+    
+            console.log(actionValue);
+            console.log(username);
+            console.log(fileName);
+    
+            if (actionValue === "upload-check") {
+                // Clear previous error message
+                errorMessage.innerText = '';
+    
+                // Check for file selection
+                var fileInput = document.getElementById('bulk');
+                var file = fileInput.files[0];
+    
+                if (typeof file === 'undefined') {
+                    alert("File name for upload is missing");
+                    document.getElementById('spinner').style.display = 'none'; // Hide the spinner
+                    return;
+                }
+    
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('user', username);
+    
+                try {
+                    var response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+    
+                    if (response.ok) {
+                        var jsonResponse = await response.json();
+                        alert(jsonResponse['message']);
+                    } else {
+                        alert('File upload failed. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred during the file upload.');
+                }
+                try {
+                    const response2 = await fetch(`check/${username}`);
+                    const checkResponse = await response2.text();
+                    console.log(checkResponse);
+                    alert('Check Is Finished')                    
+                    setTimeout(() => {
+                        window.location.href = '/results';
+                    }, 1000); // 1000 milliseconds = 1 seconds
+                } catch (error) {
+                    console.error('Error running check:', error);
+                }
+            }
+    
+            // Hide the spinner after the process completes
+            document.getElementById('spinner').style.display = 'none';
+        });
+    }
+    
+    document.querySelector('.check-submit').addEventListener('click', function() {
+        document.getElementById('spinner').style.display = 'block';
+    });
+    
     // Schedule-monitoring Form Submission
     
     const scheduleMonitoringForm = document.getElementById('schedule-monitoring-form');
