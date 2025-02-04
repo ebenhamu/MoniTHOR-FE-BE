@@ -376,9 +376,53 @@ def submit_data():
     data = request.get_json()  # Parse JSON payload
     return {"received": data}, 200
 
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    url = 'http://127.0.0.1:5000/BEupload'
+
+    if 'file' not in request.files or request.files['file'].filename == '':
+        return {"error": "No file provided"}, 400
+
+    file = request.files['file']
+    username = request.form.get('user')
+
+    files = {
+        'file': (file.filename, file.stream, file.mimetype)
+    }
+    data = {
+        'user': username
+    }
+
+    try:
+        response = requests.post(url, files=files, data=data)
+
+        if response.ok:
+            print(response.json())
+            return response.json()
+        else:
+            return {"error": "File upload failed"}, response.status_code
+    except Exception as e:
+        print("Error:", e)
+        return {"error": "An error occurred during file upload"}, 500
+
     
-    
-    
+# Route to add a single domain 
+@app.route('/add_domain/<domainName>/<userName>',methods=['GET', 'POST'])
+
+def add_new_domain(domainName,userName):
+    url = f'http://127.0.0.1:5000//BEadd_domain/{domainName}/{userName}'    
+    response  = requests.get(url)         
+    return response.json()
+
+
+
+@app.route('/remove_domain/<domainName>/<userName>',methods=['GET', 'POST'])
+
+def remove_domain(domainName,userName):
+    url = f'http://127.0.0.1:5000//BEremove_domain/{domainName}/{userName}'    
+    response  = requests.get(url)         
+    return response.json()
 
 def Checkjob(username):       
     url = f'http://127.0.0.1:5000/BEcheck/{username}'
@@ -398,4 +442,3 @@ def get_BEServer_ip():
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
-    

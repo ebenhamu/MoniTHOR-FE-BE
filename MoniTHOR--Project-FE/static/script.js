@@ -117,7 +117,7 @@ if (logform) {
             } else {
                 errorMessage.style.display = "none"; // Hide the error message
                 try {
-                    const response = await fetch(`http://127.0.0.1:5000/BEadd_domain/${domainInput}/${username}`);
+                    const response = await fetch(`/add_domain/${domainInput}/${username}`);
                     const data = await response.text();
                     console.log(data);
                     console.log('Domain is monitored');
@@ -145,46 +145,41 @@ if (logform) {
 
     // Bulk-monitor form submission
     const bulkForm = document.getElementById('bulk-monitor-form');
-    if (bulkForm) {
-        bulkForm.addEventListener('submit', async function (event) {
-            console.log('bulk-monitor-form is submitted!');
-            event.preventDefault();
 
-            const title = document.getElementById('Dashboard').innerText;  
-            const bulkFileInput = document.getElementById('bulk').value.trim();         
-            const errorMessage = document.getElementById('error-message');
-            let username=title.replace("\'s Dashboard","")
-            var actionValue = document.activeElement.value;
-            console.log(actionValue)
-            console.log(username)
-            console.log(bulkFileInput);            
+if (bulkForm) {
+    bulkForm.addEventListener('submit', async function (event) {
+        console.log('bulk-monitor-form is submitted!');
+        event.preventDefault();
 
-            let fileName =bulkFileInput.replaceAll("/","%5C")
-            fileName = fileName.replaceAll("\\","%5C")
-            
-            
-            
-            console.log(fileName);            
-            if (actionValue === "upload-check") {
+        const title = document.getElementById('Dashboard').innerText;
+        const fileName = document.getElementById('bulk').value.trim();
+        const errorMessage = document.getElementById('error-message');
+        let username = title.replace("'s Dashboard", "");
+        var actionValue = document.activeElement.value;
 
-                            //uploading file 
-            var fileInput =document.getElementById('bulk')                        
+        console.log(actionValue);
+        console.log(username);
+        console.log(fileName);
+
+        if (actionValue === "upload-check") {
+            // Clear previous error message
+            errorMessage.innerText = '';
+
+            // Check for file selection
+            var fileInput = document.getElementById('bulk');
             var file = fileInput.files[0];
-                       
-            if (typeof file  === 'undefined') { 
-            alert("File name for upload is missing") }
-            
+
+            if (typeof file === 'undefined') {
+                alert("File name for upload is missing");
+                return;
+            }
+
             var formData = new FormData();
             formData.append('file', file);
             formData.append('user', username);
-            
-            console.log(formData)
-        
-            
-            
 
             try {
-                var response = await fetch('http://127.0.0.1:5000/BEupload', {
+                var response = await fetch('/upload', {
                     method: 'POST',
                     body: formData
                 });
@@ -192,36 +187,60 @@ if (logform) {
                 if (response.ok) {
                     var jsonResponse = await response.json();
                     alert(jsonResponse['message']);
-                                       
+                } else {
+                    alert('File upload failed. Please try again.');
                 }
-
-            } catch (error) {  
-                console.error('Error:', error);                
-            }                   
-            // end of uploding file 
-            
-
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during the file upload.');
             }
-                try {
-                    const response2 = await fetch(`check/${username}`);
-                    const checkResponse = await response2.text();
-                    console.log(checkResponse);
-                    alert('Check Is Finished')                    
-                    setTimeout(() => {
-                        window.location.href = '/results';
-                    }, 1000); // 1000 milliseconds = 1 seconds
-                } catch (error) {
-                    console.error('Error runing check:', error);
-                }
-            
+            try {
+                const response2 = await fetch(`check/${username}`);
+                const checkResponse = await response2.text();
+                console.log(checkResponse);
+                alert('Check Is Finished')                    
+                setTimeout(() => {
+                    window.location.href = '/results';
+                }, 1000); // 1000 milliseconds = 1 seconds
+            } catch (error) {
+                console.error('Error runing check:', error);
             }
-        );
-    }else {
-        console.warn('Bulk-monitor form not found.');
-    }
 
-        // Schedule-monitoring Form Submission
-        document.getElementById('schedule-monitoring-form').addEventListener('submit', async function (event) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+    });
+
+
+
+
+
+
+
+
+    
+}
+
+
+    // Schedule-monitoring Form Submission
+    
+    const scheduleMonitoringForm = document.getElementById('schedule-monitoring-form');
+    console.log('scheduleMonitoringForm:', scheduleMonitoringForm);  // Debugging log
+
+    if (scheduleMonitoringForm) {
+        scheduleMonitoringForm.addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent default form submission behavior
         
             // Gather form data
@@ -246,9 +265,10 @@ if (logform) {
                 alert('An unexpected error occurred. Please try again later.');
             }
         });
-    
+    } else {
+        console.warn('schedule-monitoring-form not found');
+    }
 });
-
      async function runCheck()
      {   
 
@@ -292,7 +312,7 @@ if (logform) {
         const title = document.getElementById('results').innerText;                
         let username=title.replace("\'s Results","")
               
-        fetch(`http://127.0.0.1:5000/BEremove_domain/${encodeURIComponent(domainName)}/${username}`, {
+        fetch(`/remove_domain/${encodeURIComponent(domainName)}/${username}`, {
             method: 'POST'
         })
         .then(response => response.json())
@@ -306,7 +326,7 @@ if (logform) {
                 alert("Error: " + data.message);
             }
         })
-        .catch(error => {
+        .catch (error => {
             console.error("Error:", error);
             alert("An error occurred while attempting to remove the domain. Please try again.");
         });
