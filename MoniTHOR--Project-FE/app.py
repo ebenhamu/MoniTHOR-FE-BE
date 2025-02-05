@@ -14,7 +14,8 @@ import socket
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
+# __name__ helps Flask locate resources and configurations
+app = Flask(__name__)  
 
 # Load environment variables from .env file
 if os.path.exists('.env'):
@@ -35,7 +36,7 @@ with open('config.json', 'r') as config_file:
     app.config.update(config)
 
 
-if app.config['BE_SERVER'] == 'localhost':       
+if app.config['BE_SERVER'] == 'localhost' or app.config['BE_SERVER'] == '127.0.0.1'  :       
         hostname = socket.gethostname()
         local_ip = socket.gethostbyname(hostname)
         app.config["BE_SERVER"]=local_ip
