@@ -27,20 +27,21 @@ else:
     GOOGLE_CLIENT_ID = 'NO_ENV_FILE_KEY'
     app.secret_key = 'NO_ENV_FILE_KEY'
     GOOGLE_CLIENT_SECRET = 'NO_ENV_FILE_KEY'
-    GOOGLE_DISCOVERY_URL = 'NO_ENV_FILE_KEY'
-    
+    GOOGLE_DISCOVERY_URL = 'NO_ENV_FILE_KEY'    
 
 # Load configuration from JSON file
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
     app.config.update(config)
 
- 
- 
 
+if app.config['BE_SERVER'] == 'localhost':       
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        app.config["BE_SERVER"]=local_ip
+        logger.info(f'BE server IP : {app.config['BE_SERVER']}')
 
-
-
+# create ulpad folder if not exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
@@ -48,14 +49,12 @@ global globalInfo
 globalInfo = {'runInfo': ('--/--/---- --:-- ')} 
 
 # Google OAuth2 details
-
 # Initialize OAuth2 client
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 scheduler.start()
-
 scheduled_jobs = [] # Store scheduled jobs
 
 # Route for Job schedule 
@@ -150,7 +149,7 @@ def google_callback():
         logger.info(f'{userinfo["email"]} Login With Google Account')       
 
         # URL of the BEregister endpoint
-        url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEregister'
+        url=f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEregister'
 
         # Data to be sent in the request
         data = {
@@ -174,10 +173,10 @@ def google_callback():
             elif response.status_code == 409:
                 logger.info(f'Info: Username  {google_user["username"]} already registered:')
             else:
-                logger.info('Error:', response.json())
+                logger.error('Error:', response.json())
 
         except Exception as e:
-            print('An error occurred:', str(e))
+            logger.error('An error occurred:', str(e))
 
         # Log the user in and redirect to the dashboard
         session['user'] = google_user["username"]
@@ -191,8 +190,8 @@ def google_callback():
 # Route for login page 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    local_ip = get_BEServer_ip()  # Get the local IP address
-    return render_template('login.html' ,beserver_ip=local_ip)
+    
+    return render_template('login.html' ,beserver_ip=app.config['BE_SERVER'])
 
 
 # update user in session
@@ -231,13 +230,10 @@ def main():
     
     # Pass scheduled jobs for the current user
     user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
-    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
-    
-    local_ip = get_BEServer_ip()  # Get the local IP address
-    
+    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]              
     
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,beserver_ip=local_ip)
+                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,BE_SERVER_ip=local_ip)
 
 
 
@@ -246,7 +242,7 @@ def main():
 def check_livness(username):    
     if session['user']=="" :
         return "No User is logged in" 
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEcheck/{username}'
+    url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} "#,{info['numberOfDomains']}"      
@@ -260,7 +256,7 @@ def results():
     username=session['user']    
 
 
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEresults/{username}'
+    url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEresults/{username}'
     response = requests.get(url)
     if response.status_code == 200:
         resdata = response.json()        
@@ -279,9 +275,8 @@ def results():
     else:
         failuresPrecent=0   
     lastRunInfo=f"{globalInfo['runInfo']}{len(all_domains)}-nodes,{failuresPrecent}% Failures"
-    
-    local_ip = get_BEServer_ip()  # Get the local IP address
-    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo,beserver_ip=local_ip)
+        
+    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo,beserver_ip=app.config['BE_SERVER'])
 
 # Route for Logoff
 @app.route('/logoff', methods=['GET'])
@@ -292,26 +287,24 @@ def logoff():
         return  ("No user is logged in")    
     session['user']=""    
     globalInfo['runInfo']=['--/--/---- --:-- ']
-    local_ip = get_BEServer_ip()  # Get the local IP address
-    return render_template('login.html' ,beserver_ip=local_ip)
+    
+    return render_template('login.html' ,beserver_ip=app.config['BE_SERVER'])
 
 
 
 @app.route('/register', methods=['GET'])
-def register():        
-    local_ip = get_BEServer_ip()  # Get the local IP address    
-    return render_template('register.html' ,beserver_ip=local_ip)
+def register():            
+    return render_template('register.html' ,beserver_ip=app.config['BE_SERVER'])
 
 @app.route('/register_user', methods=['POST','GET'])
-def register_user():        
-    #local_ip = get_BEServer_ip()  # Get the local IP address    
+def register_user():            
     data = request.get_json()
     username = data.get('username')
     password1 = data.get('password1')
     password2 = data.get('password2') 
-    # print(data)
-  
-    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEregister'
+    logger.info("Registering user {username}")
+    print(app.config['BE_PORT'])
+    url=f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEregister'
 
     # Data to be sent in the request
     data = {
@@ -333,40 +326,29 @@ def register_user():
         return "Registration error"
 
 @app.route('/login_user', methods=['POST','GET'])
-def login_user():        
-    #local_ip = get_BEServer_ip()  # Get the local IP address    
+def login_user():            
     data = request.get_json()
     username = data.get('username')
-    password = data.get('password')
-    
-    # print(data)
-  
-    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BElogin'
-
+    password = data.get('password')         
+    url=f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BElogin'    
     # Data to be sent in the request
     data = {
        'username':username,
        'password': password       
         }
-
         # Headers for the request
     headers = {
             'Content-Type': 'application/json'
         }
  
     try:
-        # Make a POST request to the BEregister endpoint
+        # Make a POST request to the BElogin endpoint
         response = requests.post(url, headers=headers, data=json.dumps(data))        
-        print(response.json())
+        logger.info(f'looging user : {username}')
         return response.json()
     except:
         return "Login error"
     
-
-
-
-
-
 # Route for login page 
 @app.route('/', methods=['GET'])
 def home():
@@ -382,7 +364,7 @@ def submit_data():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    url=f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEupload'
+    url=f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEupload'
 
     if 'file' not in request.files or request.files['file'].filename == '':
         return {"error": "No file provided"}, 400
@@ -414,7 +396,7 @@ def upload():
 @app.route('/add_domain/<domainName>/<userName>',methods=['GET', 'POST'])
 
 def add_new_domain(domainName,userName):
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEadd_domain/{domainName}/{userName}'    
+    url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}//BEadd_domain/{domainName}/{userName}'    
     response  = requests.get(url)         
     return response.json()
 
@@ -423,25 +405,23 @@ def add_new_domain(domainName,userName):
 @app.route('/remove_domain/<domainName>/<userName>',methods=['GET', 'POST'])
 
 def remove_domain(domainName,userName):    
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}//BEremove_domain/{domainName}/{userName}'      
+    url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}//BEremove_domain/{domainName}/{userName}'      
     response  = requests.get(url)         
     return response.json()
 
 def Checkjob(username):       
-    url= f'http://{app.config['BEServer']}:{app.config['BEPort']}/BEcheck/{username}'
+    url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck/{username}'
     respponse  = requests.get(url)        
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"          
     return info
 
-# Function to get the backend server IP
-def get_BEServer_ip():
-    if app.config["BEServer"] == 'localhost':
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
-        return local_ip
-    else:
-        return  app.config["BEServer"]
+
+
+   
+
+
+
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
