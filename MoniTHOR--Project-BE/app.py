@@ -170,7 +170,7 @@ def check_livness(username):
 @utils.measure_this
 def upload_file():
     if 'file' not in request.files:
-        print("No file")
+        logger.error("No file")
         return {'error': 'No file part provided'}, 400
     
     username = request.form.get('user')
@@ -193,7 +193,7 @@ def upload_file():
         return {'message': 'File successfully uploaded', 'file': filepath}
     
     except Exception as e:
-        print("Error:", e)
+        logger.error("Error:", e)
         return {'error': 'An error occurred during file upload'}, 500
 
 

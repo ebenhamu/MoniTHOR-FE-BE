@@ -16,8 +16,7 @@ def set_log_level(level):
     elif level == 'INFO':
         logging.basicConfig(level=logging.INFO,format=log_format,handlers=[logging.FileHandler(log_file),logging.StreamHandler(sys.stdout)]
         )
-    else:
-        print(f"Logging level '{level}' not recognized, defaulting to INFO")
+    else:        
         logging.basicConfig(level=logging.INFO,format=log_format,handlers=[logging.FileHandler(log_file),logging.StreamHandler(sys.stdout)]
         )
 

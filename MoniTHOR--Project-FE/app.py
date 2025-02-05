@@ -303,8 +303,7 @@ def register_user():
     username = data.get('username')
     password1 = data.get('password1')
     password2 = data.get('password2') 
-    logger.info("Registering user {username}")
-    print(app.config['BE_PORT'])
+    logger.info("Registering user {username}")    
     url=f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEregister'
 
     # Data to be sent in the request
@@ -384,13 +383,12 @@ def upload():
     try:
         response = requests.post(url, files=files, data=data)
 
-        if response.ok:
-            print(response.json())
+        if response.ok:            
             return response.json()
         else:
             return {"error": "File upload failed"}, response.status_code
     except Exception as e:
-        print("Error:", e)
+        logger.error("Error:", e)
         return {"error": "An error occurred during file upload"}, 500
 
     
