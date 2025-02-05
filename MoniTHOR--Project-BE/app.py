@@ -140,11 +140,7 @@ def remove_domain(domainName,username):
     if response['message'] == "Domain successfully removed":               
         return response       
     return "Error: Domain could not be removed"
-    
-
-# usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
-# using  %5C instaed of  "\"  
-# in UI put    ./userdata/Domains_for_upload.txt
+   
 
 @app.route('/BEbulk_upload/<filename>/<username>')
 @utils.measure_this
@@ -206,5 +202,5 @@ def Checkjob(username):
     return  globalInfo["runInfo"]
 
 if __name__ == '__main__':
-    app.run(host=app.config['HOST'], port=app.config['BE_PORT'], debug=False)
+    app.run(host=app.config['HOST'], port=app.config['BE_PORT'], debug=app.config['FLASK_DEBUG'])
     
