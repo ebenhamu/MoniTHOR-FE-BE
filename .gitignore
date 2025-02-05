@@ -83,6 +83,7 @@ profile_default/
 ipython_config.py
 
 #Monithor files
+*domain.json
 users.json
 /userdata/*
 
