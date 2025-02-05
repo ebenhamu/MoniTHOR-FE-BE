@@ -1,5 +1,7 @@
+#!/bin/bash
 # Update and upgrade system
 sudo apt update -y && sudo apt upgrade -y
+
 
 # Install necessary packages
 sudo apt install git python3-pip -y
