@@ -1,5 +1,9 @@
 {
     "FLASK_SECRET_KEY": "Not_To_Bad",
-    "UPLOAD_FOLDER" :"./userdata/uploads"
+    "UPLOAD_FOLDER" :"./userdata/uploads",
+    "LOG_LEVEL":"DEBUG",
+    "LOG_FILE":"./logger/monithor_be.log",
+    "LOG_FORMAT":"[Time: %(asctime)s, File: %(filename)s:%(lineno)d, Function: %(funcName)s] %(levelname)-s - %(message)s"
 
 }
+

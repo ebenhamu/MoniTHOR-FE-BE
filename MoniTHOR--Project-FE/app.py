@@ -345,7 +345,8 @@ def login_user():
     try:
         # Make a POST request to the BElogin endpoint
         response = requests.post(url, headers=headers, data=json.dumps(data))        
-        logger.info(f'looging user : {username}')
+        logger.info(f'info: logging user : {username}')
+        logger.debug(f'debug :logging user : {username}')
         return response.json()
     except:
         return "Login error"

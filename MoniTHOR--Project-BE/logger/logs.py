@@ -1,34 +1,27 @@
 import logging
 import sys
+import json
 
 
-log_level = "DEBUG"
-log_file = "./logger/monithor.log"
+with open('./config.json', 'r') as config_file:
+    config = json.load(config_file)
 
+log_level = config['LOG_LEVEL']
+log_file =  config['LOG_FILE'] 
+log_format= config['LOG_FORMAT'] 
+def set_log_level(level):
+    if level == 'DEBUG':
+        logging.basicConfig(level=logging.INFO,format=log_format,handlers=[logging.FileHandler(log_file),logging.StreamHandler(sys.stdout)]
+        )
+    elif level == 'INFO':
+        logging.basicConfig(level=logging.INFO,format=log_format,handlers=[logging.FileHandler(log_file),logging.StreamHandler(sys.stdout)]
+        )
+    else:
+        print(f"Logging level '{level}' not recognized, defaulting to INFO")
+        logging.basicConfig(level=logging.INFO,format=log_format,handlers=[logging.FileHandler(log_file),logging.StreamHandler(sys.stdout)]
+        )
 
-if log_level == 'DEBUG':
-    logging.basicConfig(level=logging.DEBUG, format='[Time: %(asctime)s, File: %(filename)s:%(lineno)d, Function: %(funcName)s] %(levelname)-s - %(message)s', 
-                        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
-elif log_level == 'INFO':
-    logging.basicConfig(level=logging.INFO, format='%(message)s', 
-                        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
-else:
-    print(f"Logging level '{log_level}' not recognized, defaulting to INFO")
-    log_level = 'INFO'
-    logging.basicConfig(level=logging.INFO, format='%(message)s', 
-                        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
+set_log_level(log_level)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(log_level)
