@@ -234,7 +234,7 @@ def main():
     utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]              
     
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,BE_SERVER_ip=local_ip)
+                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,BE_SERVER_ip=app.config["BE_SERVER"])
 
 
 
