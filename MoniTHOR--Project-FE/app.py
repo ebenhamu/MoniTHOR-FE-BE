@@ -253,9 +253,13 @@ def check_livness(username):
 
 # Route for user results
 @app.route('/results', methods=['GET'])
-def results():
-    username=session['user']    
+def results():    
+    try:        
+        username=session['user']    
+    except:        
+        return render_template('login.html')
 
+    username=session['user']   
 
     url= f'http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEresults/{username}'
     response = requests.get(url)
