@@ -210,13 +210,13 @@ def update_user_details():
 # Route for Dashboard  
 @app.route('/dashboard', methods=['GET'])
 def main():
-    usr=session['user']    
-    user_file =f'./userdata/{usr}_domains.json'
-    if os.path.exists(user_file):
-     with open(user_file, 'r') as f:
-          data = json.load(f)
-    else:
-        data = []      
+    try:        
+        username=session['user']    
+    except:        
+        return render_template('login.html')
+    username=session['user'] 
+
+    data = [] 
 
     # Extract the required parts for the forms
     all_domains = [item['domain'] for item in data]  # List of domain names
@@ -233,7 +233,7 @@ def main():
     user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
     utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]              
     
-    return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
+    return render_template('dashboard.html', user=username, data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
                             utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{len(all_domains)} failures {failuresPrecent} %" ,BE_SERVER_ip=app.config["BE_SERVER"])
 
 
