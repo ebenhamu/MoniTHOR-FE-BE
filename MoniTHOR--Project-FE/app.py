@@ -42,9 +42,6 @@ if app.config['BE_SERVER'] == 'localhost' or app.config['BE_SERVER'] == '127.0.0
         app.config["BE_SERVER"]=local_ip
         logger.info(f'BE server IP : {app.config['BE_SERVER']}')
 
-# create ulpad folder if not exist
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
 # Global parmeters to keep last job info.
 global globalInfo 
 globalInfo = {'runInfo': ('--/--/---- --:-- ')} 

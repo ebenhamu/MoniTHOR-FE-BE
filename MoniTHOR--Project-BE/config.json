@@ -5,6 +5,7 @@
     "FLASK_DEBUG" :"False",
     "FLASK_SECRET_KEY": "Not_To_Bad",
     "UPLOAD_FOLDER" :"./userdata/uploads",
+    "USERS_FILE_FOLDER": "./userdata",
     "LOG_LEVEL":"INFO",
     "LOG_FILE":"./logger/monithor_be.log",
     "LOG_FORMAT":"[Time: %(asctime)s, File: %(filename)s:%(lineno)d, Function: %(funcName)s] %(levelname)-s - %(message)s"

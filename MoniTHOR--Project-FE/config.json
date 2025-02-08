@@ -1,6 +1,5 @@
 {
-    "ENV" : "FE_SERVER",
-    "UPLOAD_FOLDER" : "uploads",
+    "ENV" : "FE_SERVER",    
     "HOST" : "0.0.0.0",
     "FE_PORT": 8080,
     "FLASK_DEBUG" :"False",    
