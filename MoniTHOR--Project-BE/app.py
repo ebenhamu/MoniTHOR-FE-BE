@@ -17,8 +17,6 @@ with open('config.json', 'r') as config_file:
     config = json.load(config_file)
     app.config.update(config)
 
-
-os.makedirs(app.config['USERS_FILE_FOLDER'], exist_ok=True)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
