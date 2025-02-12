@@ -12,6 +12,10 @@ import uuid
 from datetime import datetime 
 import socket
 from elasticapm.contrib.flask import ElasticAPM
+import logging
+
+# Set up APM debugging
+logging.getLogger('elasticapm').setLevel(logging.DEBUG)
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -19,16 +23,15 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)
 
 app.config['ELASTIC_APM'] = {
-  'SERVICE_NAME': 'MoniTHOR!',
-
-  'SECRET_TOKEN': 'MkK4jgVCHfQXCyw5yt',
-
-  'SERVER_URL': 'https://6aec0cd4e55a4c08ab7f3b1f033d10b7.apm.us-central1.gcp.cloud.es.io:443',
-
-  'ENVIRONMENT': 'MoniTHOR-FE',
+  'SERVICE_NAME': 'Monithor-fe',
+  'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
+  'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
+  'ENVIRONMENT': 'fe-env',
 }
 
 apm = ElasticAPM(app)
+
+apm.capture_message('Test message')
 
 # Load environment variables from .env file
 if os.path.exists('.env'):

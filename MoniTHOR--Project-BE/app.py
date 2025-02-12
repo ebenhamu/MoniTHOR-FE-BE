@@ -7,20 +7,23 @@ from datetime import datetime
 from flask_cors import CORS
 from logger.utils  import Utils
 from elasticapm.contrib.flask import ElasticAPM
+import logging
 
 utils = Utils()
 
- 
+# Set up APM debugging
+logging.getLogger('elasticapm').setLevel(logging.DEBUG)
+
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 
 app.config['ELASTIC_APM'] = {
-  'SERVICE_NAME': 'MoniTHOR!',
+  'SERVICE_NAME': 'Monithor-be',
 
-  'SECRET_TOKEN': 'MkK4jgVCHfQXCyw5yt',
+  'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
 
-  'SERVER_URL': 'https://6aec0cd4e55a4c08ab7f3b1f033d10b7.apm.us-central1.gcp.cloud.es.io:443',
+  'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
 
-  'ENVIRONMENT': 'MoniTHOR-BE',
+  'ENVIRONMENT': 'be-env',
 }
 
 apm = ElasticAPM(app)
