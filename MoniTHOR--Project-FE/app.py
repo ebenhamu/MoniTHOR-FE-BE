@@ -11,11 +11,24 @@ import pytz
 import uuid
 from datetime import datetime 
 import socket
+from elasticapm.contrib.flask import ElasticAPM
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # __name__ helps Flask locate resources and configurations
-app = Flask(__name__)  
+app = Flask(__name__)
+
+app.config['ELASTIC_APM'] = {
+  'SERVICE_NAME': 'MoniTHOR!',
+
+  'SECRET_TOKEN': 'MkK4jgVCHfQXCyw5yt',
+
+  'SERVER_URL': 'https://6aec0cd4e55a4c08ab7f3b1f033d10b7.apm.us-central1.gcp.cloud.es.io:443',
+
+  'ENVIRONMENT': 'MoniTHOR-FE',
+}
+
+apm = ElasticAPM(app)
 
 # Load environment variables from .env file
 if os.path.exists('.env'):

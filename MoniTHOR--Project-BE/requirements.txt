@@ -3,3 +3,4 @@ requests==2.32.3
 APScheduler==3.11.0
 python-dotenv
 flask_cors
+elastic-apm

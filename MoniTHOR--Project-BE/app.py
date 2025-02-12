@@ -6,11 +6,25 @@ import os
 from datetime import datetime 
 from flask_cors import CORS
 from logger.utils  import Utils
+from elasticapm.contrib.flask import ElasticAPM
 
 utils = Utils()
 
  
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
+
+app.config['ELASTIC_APM'] = {
+  'SERVICE_NAME': 'MoniTHOR!',
+
+  'SECRET_TOKEN': 'MkK4jgVCHfQXCyw5yt',
+
+  'SERVER_URL': 'https://6aec0cd4e55a4c08ab7f3b1f033d10b7.apm.us-central1.gcp.cloud.es.io:443',
+
+  'ENVIRONMENT': 'MoniTHOR-BE',
+}
+
+apm = ElasticAPM(app)
+
 CORS(app)
 
 with open('config.json', 'r') as config_file:
