@@ -64,6 +64,25 @@ def BElogin():
     return jsonify({"message": "Bad Request"}), 400
 
 
+
+@app.route('/BElogin_lc', methods=['GET'])
+@utils.measure_this
+def BElogin_lc():   
+    
+    username = 'locust'# data.get('username')
+    password = 'locust'# data.get('password')
+        
+    logger.debug(f"Attempt to login with - User: {username}, Pass: {password}")        
+    status = user.login_user(username, password)
+    if status['message'] == "Login Successful":                      
+        logger.info(f"User: {username} Login Successful")
+        return jsonify({"message": "Login Successful"})
+    else:
+        logger.info(f"User: {username} Login Failed")
+        return jsonify({"message": "Invalid username or password!"}), 401
+    
+
+
 @app.route('/BEresults/<username>', methods=['GET'])
 @utils.measure_this
 def BEresults(username):
@@ -142,6 +161,14 @@ def BEadd_new_domain(domainName,username):
     logger.debug(f'Domain name is {domainName}')
         
     return domain.add_domain(username,domainName)   
+
+
+# Route to add a single domain 
+@app.route('/',methods=['GET', 'POST'])
+@utils.measure_this
+def BEadd_new_domain_lc():
+        
+    return domain.add_domain('dddd','google.com') 
     
 # Route to remove a single domain 
 @app.route('/BEremove_domain/<domainName>/<username>', methods=['GET', 'POST'])
