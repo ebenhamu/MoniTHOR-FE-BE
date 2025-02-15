@@ -15,7 +15,7 @@ from elasticapm.contrib.flask import ElasticAPM
 import logging
 
 # Set up APM debugging
-logging.getLogger('elasticapm').setLevel(logging.DEBUG)
+# logging.getLogger('elasticapm').setLevel(logging.DEBUG)
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -24,12 +24,16 @@ app = Flask(__name__)
 
 app.config['ELASTIC_APM'] = {
   'SERVICE_NAME': 'Monithor-fe',
-  'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
-  'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
+  'SECRET_TOKEN': 'XW7edH3ADysEproSCU',
+  'SERVER_URL': 'https://6d38dd86527b417caa0855c7d6f114c1.apm.us-west-2.aws.cloud.es.io:443',
+  'TRANSACTIONS_SAMPLE_RATE': 1.0,
+  'DEBUG': True,
   'ENVIRONMENT': 'fe-env',
 }
 
-apm = ElasticAPM(app)
+
+apm = ElasticAPM(app, logging=True)
+
 
 apm.capture_message('Test message')
 
@@ -70,6 +74,13 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 scheduler = BackgroundScheduler()
 scheduler.start()
 scheduled_jobs = [] # Store scheduled jobs
+
+
+
+@app.route('/test')
+def test():
+    with apm.capture_span('test span'):
+        return jsonify({'status': 'ok'}), 200
 
 # Route for Job schedule 
 @app.route('/schedule_bulk_monitoring', methods=['POST'])
@@ -255,9 +266,16 @@ def main():
 @app.route('/check/<username>', methods=['GET'])
 def check_livness(username):    
     if session['user']=="" :
-        return "No User is logged in" 
-    url= f"http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck/{username}"
-    respponse  = requests.get(url)        
+        return "No User is logged in"     
+    url= f"http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck"
+    data={
+        'username':username
+    }
+    headers = {
+            'Content-Type': 'application/json'
+        }
+    respponse  = requests.get(url, headers=headers, data=json.dumps(data))  
+    
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} "#,{info['numberOfDomains']}"      
     return info
@@ -427,8 +445,14 @@ def remove_domain(domainName,userName):
     return response.json()
 
 def Checkjob(username):       
-    url= f"http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck/{username}"
-    respponse  = requests.get(url)        
+    url= f"http://{app.config['BE_SERVER']}:{app.config['BE_PORT']}/BEcheck"
+    data={
+        'username':username
+    }
+    headers = {
+            'Content-Type': 'application/json'
+        }
+    respponse  = requests.get(url, headers=headers, data=json.dumps(data))       
     info=respponse.json()
     globalInfo['runInfo']=f"{info['start_date_time']} ,{info['numberOfDomains']}"          
     return info

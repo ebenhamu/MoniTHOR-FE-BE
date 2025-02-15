@@ -1,0 +1,8 @@
+
+{
+"single-domain" : "youtube.com",
+"host": "http://localhost",
+"port" : "8080"
+
+
+}

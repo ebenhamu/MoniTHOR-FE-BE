@@ -20,13 +20,17 @@ app.config['ELASTIC_APM'] = {
   'SERVICE_NAME': 'Monithor-be',
 
   'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
-
   'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
-
+   
+  'TRANSACTIONS_SAMPLE_RATE': 1.0,
+  'DEBUG': True,
   'ENVIRONMENT': 'be-env',
+
 }
 
-apm = ElasticAPM(app)
+
+apm = ElasticAPM(app, logging=True)
+
 
 CORS(app)
 
@@ -39,6 +43,13 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 # Global parmeters to keep last job info.
 global globalInfo 
 globalInfo = {'runInfo': ('--/--/---- --:--', '-')} 
+
+
+
+@app.route('/test')
+def test():
+    with apm.capture_span('test span'):
+        return jsonify({'status': 'ok'}), 200
 
 
 # Route for BE login  
@@ -200,10 +211,12 @@ def add_from_file(filename,username):
 # Route to run Livness check 
 # @function.measure_this()
 
-@app.route('/BEcheck/<username>')
+@app.route('/BEcheck')
 @utils.measure_this
 
-def check_livness(username):    
+def check_livness():    
+    data = request.get_json()
+    username = data.get('username')
     if user.is_user_exist(username)['message']!="User exist" :
        return "User does not exist"             
     runInfo=check_liveness.livness_check (username)            

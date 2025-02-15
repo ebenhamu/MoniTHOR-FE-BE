@@ -43,7 +43,7 @@ def livness_check (username):
             result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
             
             try:
-                response = requests.get(f'http://{url}', timeout=10)
+                response = requests.get(f'http://{url}', timeout=5)
                 logger.info(f"URL To Check:{url}")
                 if response.status_code == 200:                    
                     certInfo=check_certificate.certificate_check(url) 
