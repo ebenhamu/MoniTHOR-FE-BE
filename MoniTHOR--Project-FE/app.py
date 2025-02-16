@@ -15,7 +15,7 @@ from elasticapm.contrib.flask import ElasticAPM
 import logging
 
 # Set up APM debugging
-# logging.getLogger('elasticapm').setLevel(logging.DEBUG)
+logging.getLogger('elasticapm').setLevel(logging.DEBUG)
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -24,8 +24,8 @@ app = Flask(__name__)
 
 app.config['ELASTIC_APM'] = {
   'SERVICE_NAME': 'Monithor-fe',
-  'SECRET_TOKEN': 'XW7edH3ADysEproSCU',
-  'SERVER_URL': 'https://6d38dd86527b417caa0855c7d6f114c1.apm.us-west-2.aws.cloud.es.io:443',
+  'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
+  'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
   'TRANSACTIONS_SAMPLE_RATE': 1.0,
   'DEBUG': True,
   'ENVIRONMENT': 'fe-env',
