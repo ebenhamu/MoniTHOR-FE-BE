@@ -56,13 +56,6 @@ global globalInfo
 globalInfo = {'runInfo': ('--/--/---- --:--', '-')} 
 
 
-
-@app.route('/test')
-def test():
-    with apm.capture_span('test span'):
-        return jsonify({'status': 'ok'}), 200
-
-
 # Route for BE login  
 @app.route('/BElogin', methods=['POST'])
 @utils.measure_this
