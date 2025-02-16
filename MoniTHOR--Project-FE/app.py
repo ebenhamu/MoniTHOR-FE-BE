@@ -23,12 +23,12 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)
 
 app.config['ELASTIC_APM'] = {
-  'SERVICE_NAME': 'Monithor-fe',
-  'SECRET_TOKEN': 'QZWYN7rFWlhGMR4mDw',
-  'SERVER_URL': 'https://cd2817896a214457aeb44af3cb1d51bc.apm.us-west-2.aws.cloud.es.io:443',
+  'SERVICE_NAME': 'Monothor-Fe',
+  'API_KEY': 'RmY0Q0NaVUJLaTZSRzdmcEpuU0c6REhuQnp4M3poRDZHSHZlRGxHdHo5Zw==',
+  'SERVER_URL': 'https://my-observability-project-bbb56a.apm.us-west-2.aws.elastic.cloud:443',
+  'ENVIRONMENT': 'Test',
   'TRANSACTIONS_SAMPLE_RATE': 1.0,
   'DEBUG': True,
-  'ENVIRONMENT': 'fe-env',
 }
 
 
