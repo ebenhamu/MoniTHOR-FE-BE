@@ -84,6 +84,8 @@ ipython_config.py
 
 #Monithor files
 *domains.json
+*users.json
+*config.json
 
 
 
