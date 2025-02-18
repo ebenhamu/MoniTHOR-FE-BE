@@ -86,7 +86,7 @@ ipython_config.py
 *domains.json
 *users.json
 *config.json
-
+*cache.json
 
 
 # pyenv
