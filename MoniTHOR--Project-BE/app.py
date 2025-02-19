@@ -220,15 +220,19 @@ def add_from_file(filename,username, apm_context=None):
 @app.route('/BEcheck')
 @utils.measure_this
 def check_livness():
-    client.begin_transaction("check_livness_transaction")    
-    apm_context = traces.execution_context.get_transaction()
-    data = request.get_json()
-    username = data.get('username')
-    if user.is_user_exist(username)['message']!="User exist" :
-       return "User does not exist"             
-    runInfo=check_liveness.livness_check (username, apm_context, client=client)            
-    client.end_transaction("check_livness_transaction", "success")
-    return runInfo
+    try:
+        client.begin_transaction("check_livness_transaction")    
+        apm_context = traces.execution_context.get_transaction()
+        data = request.get_json()
+        username = data.get('username')
+        if user.is_user_exist(username)['message']!="User exist" :
+            return "User does not exist"             
+        runInfo=check_liveness.livness_check (username, apm_context, client=client)            
+        client.end_transaction("check_livness_transaction", "success")
+        return runInfo
+    except:
+        client.end_transaction("check_livness_transaction", "error")
+        return runInfo
     
 
 def asd_span_function(apm_context=None):
