@@ -1,6 +1,6 @@
-{
+[{
     "domain": "wp.com",
     "status_code": "OK",
     "ssl_expiration": "2025-05-08 19:44:44",
     "ssl_Issuer": "Let's Encrypt"
-}
+}]

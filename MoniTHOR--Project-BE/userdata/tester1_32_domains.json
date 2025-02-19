@@ -1,6 +1,6 @@
-{
+[{
     "domain": "ibm.com",
     "status_code": "OK",
     "ssl_expiration": "2025-10-18 23:59:59",
     "ssl_Issuer": "DigiCert Inc"
-}
+}]

@@ -1,6 +1,6 @@
-{
+[{
     "domain": "github.com",
     "status_code": "OK",
     "ssl_expiration": "2026-02-05 23:59:59",
     "ssl_Issuer": "Sectigo Limited"
-}
+}]

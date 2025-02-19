@@ -1,6 +1,6 @@
-{
+[{
     "domain": "gravatar.com",
     "status_code": "OK",
     "ssl_expiration": "2025-05-15 19:43:59",
     "ssl_Issuer": "Let's Encrypt"
-}
+}]

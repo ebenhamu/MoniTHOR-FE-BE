@@ -1,6 +1,8 @@
-{
-    "domain": "tumblr.com",
-    "status_code": "OK",
-    "ssl_expiration": "failed",
-    "ssl_Issuer": "timed out"
-}
+[
+    {
+        "domain": "tumblr.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-26 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    }
+]

@@ -1,6 +1,6 @@
-{
+[{
     "domain": "wix.com",
     "status_code": "OK",
     "ssl_expiration": "2025-04-23 12:22:46",
     "ssl_Issuer": "Let's Encrypt"
-}
+}]

@@ -1,6 +1,6 @@
-{
+[{
     "domain": "windows.microsoft.com",
     "status_code": "OK",
     "ssl_expiration": "2025-08-24 19:34:17",
     "ssl_Issuer": "Microsoft Corporation"
-}
+}]

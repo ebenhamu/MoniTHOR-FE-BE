@@ -1,6 +1,6 @@
-{
+[{
     "domain": "whatsapp.com",
     "status_code": "OK",
     "ssl_expiration": "2025-02-26 23:59:59",
     "ssl_Issuer": "DigiCert Inc"
-}
+}]

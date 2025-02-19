@@ -1,6 +1,8 @@
-{
-    "domain": "shopify.com",
-    "status_code": "OK",
-    "ssl_expiration": "2025-03-30 20:22:19",
-    "ssl_Issuer": "Google Trust Services"
-}
+[
+    {
+        "domain": "shopify.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-20 01:18:08",
+        "ssl_Issuer": "Let's Encrypt"
+    }
+]

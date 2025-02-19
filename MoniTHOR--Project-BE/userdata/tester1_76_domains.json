@@ -1,6 +1,6 @@
-{
+[{
     "domain": "loc.gov",
     "status_code": "OK",
     "ssl_expiration": "2025-05-10 11:06:52",
     "ssl_Issuer": "Let's Encrypt"
-}
+}]

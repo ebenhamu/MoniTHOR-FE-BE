@@ -1,6 +1,8 @@
-{
-    "domain": "spotify.com",
-    "status_code": "OK",
-    "ssl_expiration": "2026-01-06 23:59:59",
-    "ssl_Issuer": "DigiCert Inc"
-}
+[
+    {
+        "domain": "spotify.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-01-06 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    }
+]
