@@ -1,0 +1,602 @@
+[
+    {
+        "domain": "bing.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-06-13 07:52:28",
+        "ssl_Issuer": "Microsoft Corporation"
+    },
+    {
+        "domain": "telegraph.co.uk",
+        "status_code": "FAILED",
+        "ssl_expiration": "FAILED",
+        "ssl_Issuer": "FAILED"
+    },
+    {
+        "domain": "behance.net",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-13 09:22:58",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "github.io",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-14 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "bit.ly",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-06 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "ietf.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-23 19:01:08",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "businessinsider.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-09 18:50:22",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "cbsnews.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-15 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "cloudflare.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-29 00:34:36",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "linktr.ee",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-06 10:47:56",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "addtoany.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-23 04:36:37",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "x.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-09-29 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "stackoverflow.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-02 17:50:48",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "bloomberg.com",
+        "status_code": "FAILED",
+        "ssl_expiration": "FAILED",
+        "ssl_Issuer": "FAILED"
+    },
+    {
+        "domain": "calendly.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-22 16:49:01",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "weebly.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-26 18:04:05",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "wordpress.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-12 19:45:12",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "gravatar.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-15 19:43:59",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "apache.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-21 06:47:35",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "maps.google.com",
+        "status_code": "FAILED",
+        "ssl_expiration": "FAILED",
+        "ssl_Issuer": "FAILED"
+    },
+    {
+        "domain": "apple.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-16 19:56:22",
+        "ssl_Issuer": "Apple Inc."
+    },
+    {
+        "domain": "podcasts.apple.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-02 18:31:05",
+        "ssl_Issuer": "Apple Inc."
+    },
+    {
+        "domain": "apps.apple.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-02 18:31:05",
+        "ssl_Issuer": "Apple Inc."
+    },
+    {
+        "domain": "live.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-12-11 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "www.gov.uk",
+        "status_code": "OK",
+        "ssl_expiration": "2025-12-17 20:01:04",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "tumblr.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-26 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "msn.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-06 23:10:41",
+        "ssl_Issuer": "Microsoft Corporation"
+    },
+    {
+        "domain": "github.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-02-05 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "itunes.apple.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-02 18:31:05",
+        "ssl_Issuer": "Apple Inc."
+    },
+    {
+        "domain": "flickr.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-02-02 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "windows.microsoft.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-24 19:34:17",
+        "ssl_Issuer": "Microsoft Corporation"
+    },
+    {
+        "domain": "en.wikipedia.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-17 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "microsoft.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-17 10:58:30",
+        "ssl_Issuer": "Microsoft Corporation"
+    },
+    {
+        "domain": "linkedin.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-14 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "europa.eu",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-10 12:06:07",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "cnet.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-19 02:38:25",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "commons.wikimedia.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-17 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "usatoday.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-23 20:14:25",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "wikipedia.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-17 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "springer.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-02 05:17:57",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "spotify.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-01-06 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "whatsapp.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-02-26 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "twitter.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-09-29 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "mozilla.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-12 00:51:33",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "wa.me",
+        "status_code": "OK",
+        "ssl_expiration": "2025-02-26 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "policies.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "blogger.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:12",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "instagram.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-02-26 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "youtu.be",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "blogspot.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:36:08",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "stanford.edu",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-01 23:59:59",
+        "ssl_Issuer": "Internet2"
+    },
+    {
+        "domain": "accounts.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:37:18",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "nasa.gov",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-01 08:07:44",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "docs.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "shopify.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-03-30 20:22:19",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "plus.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "dailymail.co.uk",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-23 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "goo.gl",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "workspaceupdates.googleblog.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:42",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "slideshare.net",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-15 23:05:04",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "play.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "g.page",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:42",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "mysql.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-03-04 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "googleblog.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:42",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "npr.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-30 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "adobe.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-15 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "surveymonkey.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-12-26 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "eventbrite.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-09-10 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "tiktok.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-15 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "wired.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-03-15 16:21:34",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "twitch.tv",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-05 21:35:13",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "bbc.co.uk",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-19 06:26:04",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "bbc.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-19 06:26:04",
+        "ssl_Issuer": "GlobalSign nv-sa"
+    },
+    {
+        "domain": "discord.gg",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-07 00:43:31",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "launchpad.net",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-04 10:21:35",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "youtube.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "facebook.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-02-26 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "aboutads.info",
+        "status_code": "OK",
+        "ssl_expiration": "2025-11-26 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "paypal.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-06 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "debian.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-16 00:50:54",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "gnu.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-12 09:27:06",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "loc.gov",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-10 11:06:52",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "pinterest.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-07 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "cookiedatabase.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-22 04:22:30",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "player.vimeo.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 10:46:39",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "drive.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:35:26",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "mail.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-21 08:37:15",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "wix.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-23 12:22:46",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "ibm.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-18 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "wp.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-08 19:44:44",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "cpanel.net",
+        "status_code": "OK",
+        "ssl_expiration": "2026-01-26 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "reddit.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-11 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "wordpress.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-05-01 19:43:54",
+        "ssl_Issuer": "Let's Encrypt"
+    },
+    {
+        "domain": "hp.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-02-03 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "ebay.com",
+        "status_code": "OK",
+        "ssl_expiration": "2026-01-08 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "ted.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-31 23:59:59",
+        "ssl_Issuer": "Amazon"
+    },
+    {
+        "domain": "outlook.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-06-26 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "yahoo.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-06-11 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "weibo.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-06-07 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "statista.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-07-27 23:59:59",
+        "ssl_Issuer": "Amazon"
+    }
+]
