@@ -108,6 +108,8 @@ def get_domains(username):
     data = db.get_data(query, (username,))
     db.close()
     return data
+
+
 # Example usage:
 if __name__ == "__main__":
     print(get_user_password('David'))
